@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col style="background-color:red" cols="12" sm="6" md="6">
         <div>Joon Title</div>
