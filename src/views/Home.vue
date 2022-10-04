@@ -1,15 +1,17 @@
 <template>
-  <HelloWorld2 />
+<v-app>
+<HelloWorld/>
+</v-app>
 </template>
 
 <script>
-import HelloWorld2 from '../components/HelloWorld'
+import HelloWorld from '../components/HelloWorld'
 
 export default {
   name: 'Home',
 
   components: {
-    HelloWorld2
+    HelloWorld
   }
 }
 </script>
