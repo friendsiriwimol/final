@@ -1,7 +1,13 @@
 <template>
 <div>
     <NavbarUser />
-        <v-card class="cardShowuser">
+    <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+        <v-card class="cardShowuser mt-0">
     <v-card-title>
       <v-icon class="mr-2" color="#fcad74">mdi-book-open-variant</v-icon>
      ประวัติเรียนและสอบ
@@ -9,7 +15,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="ค้นหา"
         dense
         color="#099fae"
         single-line
@@ -184,7 +190,19 @@ export default {
           }
         }
       },
-      content: dedent``
+      content: dedent``,
+      breadcrumbs: [
+        {
+          text: 'หน้าแรก',
+          disabled: false,
+          href: 'post'
+        },
+        {
+          text: 'ประวัติเข้าเรียนและสอบ',
+          disabled: true,
+          href: 'history'
+        }
+      ]
     }
   },
   created () {
@@ -352,5 +370,7 @@ font-family: 'Prompt', sans-serif;
         border-top: none;
         height: 24rem;
       }
-
+      .v-breadcrumbs >>> a {
+    color: #fcad74;
+}
 </style>

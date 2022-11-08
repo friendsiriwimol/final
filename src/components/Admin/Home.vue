@@ -1,8 +1,13 @@
 <template>
   <div class="app">
     <NavbarAdmin/>
-    <v-container>
-    <h1 class="mt-7 mb-7" align="center">กระทู้</h1>
+    <div>
+    <v-breadcrumbs
+      :items="breadcrumbs"
+      large
+    ></v-breadcrumbs>
+  </div>
+    <h1 class="mt-0 mb-7" align="center">กระทู้</h1>
 <v-card class="cardShowuser">
     <v-card-title>
       <!-- <v-icon class="mr-2" color="#fcad74">mdi-book-open-variant</v-icon> -->
@@ -24,6 +29,7 @@
             rounded
             clearable
             dense
+            @keyup.enter="writePost()"
           ></v-text-field>
           </v-form>
           </center>
@@ -44,10 +50,10 @@
     <v-card class="cardShowuser" v-for="(postuser, index) in allpost" :key="postuser.post_id">
       <!-- {{postuser}} -->
       <v-card-title>
-        Siriwimol &nbsp; <span style="color: gray;">โพสต์เมื่อ วันที่ 12/11/64 เวลา 12:30 น.</span>
+        Siriwimol&nbsp;<span style="color: #21777f;">{{postuser.post_detail}}</span>
       </v-card-title>
 
-      <v-card-subtitle>{{postuser.post_detail}} </v-card-subtitle>
+      <v-card-subtitle>โพสต์เมื่อ วันที่ {{postuser.create_at}} น.</v-card-subtitle>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -66,10 +72,10 @@
             <v-form  v-model="valid2" ref="form2">
               <div class="mx-auto ma-3" width="60%" v-for="comment in allcomment" v-bind:key="comment.comment_id">
               <div v-if="comment.post_id === postuser.post_id">
-              <v-divider></v-divider>
-              <div color="#099fae">Siriwimol <span style="color: gray;">แสดงความคิดเห็นเมื่อ 12/11/64 เวลา 12:30 น.</span> </div>
+              <v-divider class="mb-2"></v-divider>
+              <div color="#099fae">Siriwimol <span style="color: gray;">แสดงความคิดเห็นเมื่อ {{comment.create_at}} น.</span> </div>
               <div>{{comment.comment_detail}}</div>
-              <v-divider class="mt-3"></v-divider>
+              <!-- <v-divider class="mt-3"></v-divider> -->
               </div>
               </div>
             <v-textarea
@@ -80,6 +86,7 @@
               rows="2"
               color="#099fae"
               row-height="20"
+              @keyup.enter="writeComment(postuser.post_id)"
             >
             </v-textarea>
             <div class="text-center">
@@ -95,7 +102,6 @@
         </div>
       </v-expand-transition>
     </v-card>
-</v-container>
   </div>
 </template>
 
@@ -119,14 +125,28 @@ export default {
     comment_detail: '',
     comment_id: '',
     postuser: {
-      post_detail: ''
+      post_detail: '',
+      create_at: ''
     },
     comment: {
-      comment_detail: ''
+      comment_detail: '',
+      create_at: ''
     },
     valid: false,
     valid2: false,
-    panel: ''
+    panel: '',
+    breadcrumbs: [
+      {
+        text: 'Dashboard',
+        disabled: false,
+        href: 'home'
+      },
+      {
+        text: 'หน้าแรก',
+        disabled: true,
+        href: 'adminpost'
+      }
+    ]
     // postRules: [
     //   v => !!v || ''
     // ]
@@ -218,7 +238,7 @@ export default {
         }
         this.getComment()
         // this.postuser.post_detail = ''
-        this.$refs.form.reset()
+        this.comment_detail = ''
       }
     }
   }
@@ -256,6 +276,9 @@ display: flex !important;
 }
 .cardShowuser{
   margin-top: 2%;
+}
+.v-breadcrumbs >>> a {
+    color: #fcad74;
 }
 /* .app{
   background-color: black;

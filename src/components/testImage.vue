@@ -2,29 +2,29 @@
   <div class="container">
     <NavbarUser/>
     <div class="large-12 medium-12 small-12 cell">
-      <h1>Vue JS Axios - Image Upload using PHP API - ItSolutionStuff.com</h1>
-      <label>File
-        <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()"/>
+      <label>
+        <!-- <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()"/> -->
       </label>
         <button v-on:click="submitForm()">Upload</button>
+        <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage ()"> </div>
+        <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" @input="pickFile" >
     </div>
-
     <v-row>
 <v-col cols="12"
                 sm="6"
                 md="3"
                 v-for="lesson in alllesson" v-bind:key="lesson.lesson_id">
-
   <v-card
     class="mx-auto"
     max-width="400"
     >
-
+<!-- <img src='lesson.lesson_unitimg'/> -->
     <v-img
       class="white--text align-end"
       height="200px"
-      v-bind:src="lesson.lesson_unitimg"
-    >
+      :src="lesson.lesson_unitimg"
+      alt="img ja"
+          >
       <v-card-title>บทที่ {{lesson.lesson_unit}} </v-card-title>
     </v-img>
 
@@ -37,14 +37,14 @@
     </v-card-text>
 
     <v-card-actions>
-      <a href="lessonmore" @click="sendData(user)" >
+      <router-link v-bind:to="'/lessondetail/'+ lesson.lesson_id">
       <v-btn
         color="#fcad74"
         text
       >
       อ่านเพิ่มเติม
-
-      </v-btn></a>
+      </v-btn>
+    </router-link>
 
     </v-card-actions>
   </v-card>
@@ -70,14 +70,29 @@ export default {
         lesson_unit: '',
         lesson_name: '',
         lesson_unitimg: ''
-
-      }
+      },
+      previewImage: null
     }
   },
   created () {
     this.getLesson()
   },
   methods: {
+    selectImage () {
+      this.$refs.file.click()
+    },
+    pickFile () {
+      const input = this.$refs.file
+      const file = input.files
+      if (file && file[0]) {
+        const reader = new FileReader()
+        reader.onload = e => {
+          this.previewImage = e.target.result
+        }
+        reader.readAsDataURL(file[0])
+        this.$emit('input', file[0])
+      }
+    },
     async getLesson () {
       console.log('rewload')
       axios.get('http://localhost/vue-backend/lesson.php').then((res) => {
@@ -112,3 +127,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.imagePreviewWrapper {
+    width: 250px;
+    height: 250px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 30px;
+    background-size: cover;
+    background-position: center center;
+}
+</style>

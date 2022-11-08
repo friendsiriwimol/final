@@ -1,7 +1,12 @@
 <template>
   <div class="app">
     <NavbarAdmin/>
-    <v-container>
+      <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
   <!-- <SideBarRight /> -->
           <v-row class="mt-n5">
             <v-col>
@@ -18,22 +23,28 @@
           </v-row>
           <v-row class="mt-n12">
             <v-col cols="12" sm="12">
-             <Table />
+              <Table />
             </v-col>
           </v-row>
- </v-container>
  </div>
 </template>
 
 <script>
 import NavbarAdmin from '@/components/NavbarAdmin'
-import Table from '../components/Table'
-import dashboard from '../components/dashboard'
-import LineChart from '../components/LineChart'
-import PieChart from '../components/PieChart'
+import Table from '../../components/Table'
+import dashboard from '../../components/dashboard'
+import LineChart from '../../components/LineChart'
+import PieChart from '../../components/PieChart'
 export default {
   name: 'Home',
   data: () => ({
+    breadcrumbs: [
+      {
+        text: 'Dashboard',
+        disabled: false,
+        href: 'admindashboard'
+      }
+    ]
     // lists: [
     //   {
     //     icon: "fas fa-user-md",
@@ -68,7 +79,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .border {
   border: 2px solid #2ebfaf !important;
 }
@@ -78,5 +89,8 @@ export default {
 .v-btn--absolute.v-btn--left,
 .v-btn--fixed.v-btn--left {
   left: -26px !important;
+}
+.v-breadcrumbs >>> a {
+    color: #fcad74;
 }
 </style>

@@ -1,15 +1,27 @@
 <template>
 <div>
   <NavbarAdmin/>
-  <v-card class="cardShowuser">
-    <v-card-title>
+  <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+  <v-card class="cardShowuser mt-0 ">
+    <v-tabs background-color="transparent" color="#099fae" grow v-model="tab">
+        <v-tab @click="getPostWaiting('waiting')"> โพสต์รอการอนุมัติ </v-tab>
+        <v-tab @click="getPostApprove('approve')"> โพสต์อนุมัติสำเร็จ </v-tab>
+        <v-tab @click="getPostAll('all')"> โพสต์ทั้งหมด </v-tab>
+
+      </v-tabs>
+    <v-card-title v-show="status === 'waiting'">
       <v-icon class="mr-2" color="#fcad74">mdi-post</v-icon>
      โพสต์
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="ค้นหา"
         dense
         color="#099fae"
         single-line
@@ -17,7 +29,15 @@
       ></v-text-field>
     </v-card-title>
     <!-- <v-card-title>friend</v-card-title> -->
-       <v-data-table :items="allpost" :headers="headers" :items-per-page="5" :search="search">
+       <v-data-table
+       :items="allpost"
+       :headers="headers"
+       :items-per-page="5"
+       :search="search"
+       v-show="status === 'waiting'"
+       no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+       >
        <template slot="data" slot-scope="props" >
         <td>{{ user_firstname }}</td>
         <td>{{ props.data.comment_detail }}</td>
@@ -25,10 +45,10 @@
       <template v-slot:item.check="{ item }">
       <v-icon
         small
-        @click="updateStatus(item)"
+        @click="editItem(item)"
         color="#56a062"
       >
-       mdi-check-circle
+      mdi-pencil
       </v-icon>
     </template>
     <template v-slot:item.delete="{ item }">
@@ -42,6 +62,142 @@
     </template>
     </v-data-table>
 
+    <v-card-title v-show="status === 'approve'">
+      <v-icon class="mr-2" color="#fcad74">mdi-post</v-icon>
+     โพสต์
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        dense
+        color="#099fae"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <!-- <v-card-title>friend</v-card-title> -->
+    <v-data-table
+       :items="allpost"
+       :headers="headers"
+       :items-per-page="5"
+       :search="search"
+       v-show="status === 'approve'"
+       no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+       >       <template slot="data" slot-scope="props" >
+        <td>{{ user_firstname }}</td>
+        <td>{{ props.data.comment_detail }}</td>
+      </template>
+      <template v-slot:item.check="{ item }">
+      <v-icon
+        small
+        @click="editItem(item)"
+        color="#56a062"
+      >
+      mdi-pencil
+      </v-icon>
+    </template>
+    <template v-slot:item.delete="{ item }">
+      <v-icon
+        small
+        @click="deleteItem(item)"
+        color="#ea5859"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    </v-data-table>
+
+    <v-card-title v-show="status === 'all'">
+      <v-icon class="mr-2" color="#fcad74">mdi-post</v-icon>
+     โพสต์
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        dense
+        color="#099fae"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <!-- <v-card-title>friend</v-card-title> -->
+    <v-data-table
+       :items="allpost"
+       :headers="headers"
+       :items-per-page="5"
+       :search="search"
+       v-show="status === 'all'"
+       no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+       >       <template slot="data" slot-scope="props" >
+        <td>{{ user_firstname }}</td>
+        <td>{{ props.data.comment_detail }}</td>
+      </template>
+      <template v-slot:item.check="{ item }">
+      <v-icon
+        small
+        @click="editItem(item)"
+        color="#56a062"
+      >
+      mdi-pencil
+      </v-icon>
+    </template>
+    <template v-slot:item.delete="{ item }">
+      <v-icon
+        small
+        @click="deleteItem(item)"
+        color="#ea5859"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    </v-data-table>
+
+    <v-dialog v-model="dialog" max-width="600px" persistent>
+                      <v-card>
+          <v-card-title> จัดการโพสต์ </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form v-model="valid" ref="form">
+              <v-row>
+                <!-- <v-col cols="12">
+                  <v-text-field
+                    label="บทที่"
+                    required
+                    v-model="post_id"
+                  ></v-text-field>
+                </v-col> -->
+                <v-col cols="12">
+                  <v-text-field
+                    label="โพสต์"
+                    required
+                    disabled
+                    v-model="post_detail"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-checkbox
+                    v-model="post_status"
+                    label="อนุมัติโพสต์"
+                    value="approve"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              ปิด
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="saveUpdate ()"> บันทึก </v-btn>
+          </v-card-actions>
+        </v-card>
+                </v-dialog>
   </v-card>
   </div>
 </template>
@@ -66,9 +222,11 @@ export default {
       },
       dialog: false,
       allpost: [],
+      allwaiting: [],
+      allapprove: [],
       search: '',
-      post_detail: '',
       post_id: '',
+      post_detail: '',
       post_status: '',
       postuser: {
         post_detail: ''
@@ -89,14 +247,33 @@ export default {
         { text: 'ลบ', value: 'delete', sortable: false }
 
       ],
-      data: []
+      data: [],
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'admindashboard'
+        },
+        {
+          text: 'จัดการโพสต์',
+          disabled: true,
+          href: 'adminpost'
+        }
+      ]
     }
   },
   created () {
-    this.getPost()
+    this.status = 'waiting'
+    // this.statusWaiting = 'waiting'
+    // this.statusApprove = 'approve'
+    this.getPostWaiting(this.status)
+    // this.getReload(this.status)
+    // this.getPostWaiting(this.statusWaiting)
+    // this.getPostApprove(this.statusApprove)
   },
   methods: {
-    async getPost () {
+    async getPostAll (value) {
+      this.status = value
       console.log('rewload')
       axios.get('http://localhost/vue-backend/post.php').then((res) => {
         console.log('data:', res.data)
@@ -105,90 +282,76 @@ export default {
         }
       })
     },
+    async getPostWaiting (value) {
+      this.status = value
+      axios.get('http://localhost/vue-backend/postWaiting.php').then((res) => {
+        console.log('data:', res.data)
+        if (res.data) {
+          this.allpost = res.data
+          this.allwaiting = res.data
+        }
+      })
+    },
+    async getPostApprove (value) {
+      this.status = value
+      axios.get('http://localhost/vue-backend/postApprove.php').then((res) => {
+        console.log('data:', res.data)
+        if (res.data) {
+          this.allpost = res.data
+          this.allapprove = res.data
+          // this.allstudent = res.data
+        }
+      })
+    },
     // updateStatus (data) {
     //   this.post_status = data.post_status
     // },
-    async updateStatus (data) {
-      var bodyValue = {
-        post_id: data.post_id,
-        post_detail: data.post_detail,
-        post_status: 'approve'
-      }
-      var { data: update } = await axios.put(
-        'http://localhost/vue-backend/updatePostStatus.php',
-        bodyValue
-      )
-      console.log(update, 'data here!')
-      if (update === 'success') {
-        Swal.fire({
-          icon: 'success',
-          title: 'แก้ไขสำเร็จ',
-          showConfirmButton: false,
-          text: 'คำอธิบาย',
-          customClass: {
-            title: 'csss'
-          },
-          timer: 1500
-        })
-        // this.type = type
-        this.getPost()
+    editItem (data) {
+      // console.log('item:', this.items)มันไม่มีค่า มันเอามาจากตัวแปรitems:{}ข้างบน มันว่าง
+      // console.log('item:', data)คือฟังก์ชันedit(data)ข้างบนdataที่ส่งมา
+      this.dialog = true
+      this.post_id = data.post_id
+      this.post_detail = data.post_detail
+      this.post_status = data.post_status
+      this.create_at = data.create_at
+      // console.log('friend data item', data)
+      // console.log(this.allshow)
+    },
+    async saveUpdate (status) {
+      if (this.post_status !== null && this.$refs.form.validate()) { // กรอกครบมั้ย
+        var bodyValue = {
+          post_id: this.post_id,
+          post_detail: this.post_detail,
+          post_status: this.post_status,
+          create_at: this.create_at
+        }
+        var { data } = await axios.put(
+          'http://localhost/vue-backend/updateStatusPost.php',
+          bodyValue
+        )
+        console.log(data, 'data here!')
+        if (data === 'success') {
+          this.dialog = false
+          Swal.fire({
+            icon: 'success',
+            title: 'อนุมัติโพสต์สำเร็จ',
+            showConfirmButton: false,
+            text: 'คำอธิบาย',
+            customClass: {
+              title: 'csss'
+            },
+            timer: 1500
+          })
+        }
+        this.status = status
+        this.getReload(this.status)
       }
     },
-
-    // editItem (data) {
-    //   // console.log('item:', this.items)มันไม่มีค่า มันเอามาจากตัวแปรitems:{}ข้างบน มันว่าง
-    //   // console.log('item:', data)คือฟังก์ชันedit(data)ข้างบนdataที่ส่งมา
-    //   this.dialog = true
-    //   this.user_id = data.user_id
-    //   this.user_firstname = data.user_firstname
-    //   this.user_lastname = data.user_lastname
-    //   this.user_email = data.user_email
-    //   this.user_password = data.user_password
-    //   this.user_tel = data.user_tel
-    //   this.user_type = data.user_type
-    //   this.user_age = data.user_age
-    //   // console.log('friend data item', data)
-    //   // console.log(this.allshow)
-    // },
-    // async save () {
-    //   var bodyValue = {
-    //     user_id: this.user_id,
-    //     user_firstname: this.user_firstname,
-    //     user_lastname: this.user_lastname,
-    //     user_email: this.user_email,
-    //     user_password: this.user_password,
-    //     user_tel: this.user_tel,
-    //     user_type: this.user_type,
-    //     user_age: this.user_age
-
-    //   }
-    //   var { data } = await axios.put('http://localhost/vue-backend/updateUser.php', bodyValue)
-    //   console.log(data, 'data here!')
-    //   if (data === 'success') {
-    //     this.dialog = false
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'แก้ไขสำเร็จ',
-    //       showConfirmButton: false,
-    //       text: 'คำอธิบาย',
-    //       customClass: {
-    //         title: 'csss'
-    //       },
-    //       timer: 1500
-    //     })
-    //     this.getUser()
-    //     // setTimeout(() => {
-    //     //   this.getData()
-    //     // }, 2000)
-    //   }
-    // },
-    // closedialog () {
-    //   this.dialog = false
-    // }
     async deleteItem (data) {
       // var idDel = parseInt(data.id)
       var { data: deletes } = await axios.post('http://localhost/vue-backend/deletePost.php', {
-        post_id: data.post_id
+        post_id: data.post_id,
+        delete_at: data.delete_at
       })
       console.log(deletes, 'delete')
       if (deletes === 'success') {
@@ -203,7 +366,17 @@ export default {
           },
           timer: 1500
         })
-        this.getPost()
+        this.status = data
+        this.getReload(this.status)
+      }
+    },
+    getReload (status) {
+      if (status === 'all') {
+        this.getPostAll('all')
+      } else if (status === 'wating') {
+        this.getPostWaiting('wating')
+      } else {
+        this.getPostWaiting('approve')
       }
     }
   }
@@ -223,4 +396,8 @@ font-family: 'Prompt', sans-serif;
 .head{
   background-color: red;
 }
+.v-breadcrumbs >>> a {
+    color: #fcad74;
+}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div >
-  <nav >
-    <v-toolbar  app height="90px">
+  <nav>
+    <v-toolbar  app height="90px" elevation="2" class="rounded-lg">
       <v-btn  @click="drawer = !drawer"
       fab
       dark
@@ -20,16 +20,16 @@
         <span> Hens</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="text-capitalize" color="#ea5859" href="/login">
+      <v-btn class="text-capitalize" color="#ea5859" href="/">
         <span class="icon">Sign Out</span>
         <v-icon right class="icon">mdi-exit-to-app</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-navigation-drawer app v-model="drawer" color="#099fae">
+    <v-navigation-drawer app v-model="drawer" color="#099fae" >
        <div class="nav-menu">
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t1.6435-9/187955402_1805265456321792_5790365418668920358_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFjnZw5Nq60vr2i-vtQx02zt_TST1ymdpi39NJPXKZ2mKc6wPDghlYK-NI2b8K70uFEBMDorIYT4x8wUiD4sod4&_nc_ohc=O9P5iy5djLoAX_o_5da&_nc_ht=scontent.fkkc3-1.fna&oh=00_AT-ZkRkiMb3DBOVbqdoBZVUJpgDlBiqVAy1ps3Hn_fJS7Q&oe=632C0FA9"></v-img>
+          <v-img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t1.6435-9/187955402_1805265456321792_5790365418668920358_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFjnZw5Nq60vr2i-vtQx02zt_TST1ymdpi39NJPXKZ2mKc6wPDghlYK-NI2b8K70uFEBMDorIYT4x8wUiD4sod4&_nc_ohc=gc5K5a-etUIAX8jo5gB&_nc_ht=scontent.fkkc3-1.fna&oh=00_AT8CgTmO1G_DIKzQ4qaflnFdc9pY9PfdWifv95tmk0pp3g&oe=637B29A9"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-title class="text">Friend</v-list-item-title>
@@ -67,12 +67,12 @@ export default {
     return {
       drawer: false,
       items: [
-        { title: 'Dashboard', icon: 'mdi-view-dashboard', route: '/home' },
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', route: '/admindashboard' },
         { title: 'หน้าแรก', icon: 'mdi-home-city', route: '/adminhome' },
         { title: 'จัดการโพสต์', icon: 'mdi-post', route: '/adminpost' },
         { title: 'จัดการบทเรียน', icon: 'mdi-book-open-variant', route: '/adminlesson' },
         { title: 'จัดการแบบทดสอบ', icon: 'mdi-notebook-edit', route: '/adminquiz' },
-        { title: 'จัดการวิดีโอ', icon: 'mdi-video', route: '#' },
+        { title: 'จัดการวิดีโอ', icon: 'mdi-video', route: '/adminvideo' },
         { title: 'จัดการเว็บไซต์ที่เกี่ยวข้อง', icon: 'mdi-link', route: 'adminwebsite' },
         { title: 'จัดการผู้ใช้', icon: 'mdi-account-group', route: '/adminuser' },
         { title: 'บัญชีผู้ใช้', icon: 'mdi-account', route: '/adminprofile' }

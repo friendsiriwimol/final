@@ -1,7 +1,13 @@
 <template>
 <div>
   <NavbarAdmin/>
-  <v-card class="cardShowuser">
+  <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+  <v-card class="cardShowuser mt-0">
     <v-card-title>
       <v-icon class="mr-2" color="#fcad74">mdi-link</v-icon>
      เว็บไซต์ที่เกี่ยวข้อง
@@ -9,7 +15,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="ค้นหา"
         dense
         color="#099fae"
         single-line
@@ -34,7 +40,13 @@
     </v-btn>
     </v-card-title>
     <!-- <v-card-title>friend</v-card-title> -->
-       <v-data-table :items="allwebsite" :headers="headers" :items-per-page="5" :search="search">
+       <v-data-table
+       :items="allwebsite"
+       :headers="headers"
+       :items-per-page="5"
+       :search="search"
+       no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา">
        <template slot="data">
         <td>{{website_id}}</td>
         <!-- <td>{{website_id}}</td> -->
@@ -60,11 +72,12 @@
       </v-icon>
     </template>
     </v-data-table>
-    <v-dialog v-model="dialog1" max-width="600px">
+    <v-dialog v-model="dialog1" max-width="600px" persistent>
              <v-card>
           <v-card-title> เพิ่มเว็บไซต์ </v-card-title>
           <v-card-text>
             <v-container>
+              <v-form v-model="valid1" ref="form1">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
@@ -88,6 +101,7 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -99,7 +113,7 @@
           </v-card-actions>
         </v-card>
                 </v-dialog>
-                <v-dialog v-model="dialog" max-width="600px">
+                <v-dialog v-model="dialog" max-width="600px" persistent>
                       <v-card>
           <v-card-title> แก้ไขเว็บไซต์ </v-card-title>
           <v-card-text>
@@ -179,7 +193,19 @@ export default {
 
       ],
       data: [],
-      content: dedent``
+      content: dedent``,
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'admindashboard'
+        },
+        {
+          text: 'จัดการเว็บไซต์ที่เกี่ยวข้อง',
+          disabled: true,
+          href: 'adminwebsite'
+        }
+      ]
     }
   },
   created () {
@@ -196,9 +222,10 @@ export default {
     },
     OpenDialog () {
       this.dialog1 = true
+      this.$refs.form1.reset()
     },
     async insertWebsite () {
-      if (this.$refs.form.validate()) { // กรอกครบมั้ย
+      if (this.$refs.form1.validate()) { // กรอกครบมั้ย
         var { data } = await axios.post('http://localhost/vue-backend/insertWebsite.php', {
           // post_id: this.post_id,
           website_id: this.website_id,
@@ -219,8 +246,6 @@ export default {
         }
         this.dialog1 = false
         this.getWebsite()
-        // this.lesson_description = ''
-        // this.postuser.post_detail = ''
       }
     },
     // async saveInsert () {
@@ -257,6 +282,8 @@ export default {
       this.website_id = data.website_id
       this.website_name = data.website_name
       this.website_link = data.website_link
+      this.create_at = data.create_at
+
       // console.log('friend data item', data)
       // console.log(this.allshow)
     },
@@ -264,7 +291,9 @@ export default {
       var bodyValue = {
         website_id: this.website_id,
         website_name: this.website_name,
-        website_link: this.website_link
+        website_link: this.website_link,
+        create_at: this.create_at
+
       }
       var { data } = await axios.put('http://localhost/vue-backend/updateWebsite.php', bodyValue)
       console.log(data, 'data here!')
@@ -358,5 +387,7 @@ font-family: 'Prompt', sans-serif;
         border-top: none;
         height: 24rem;
       }
-
+      .v-breadcrumbs >>> a {
+    color: #fcad74;
+}
 </style>

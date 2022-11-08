@@ -1,7 +1,13 @@
 <template>
 <div>
   <NavbarAdmin/>
-  <v-card class="cardShowuser">
+  <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+  <v-card class="cardShowuser mt-0">
     <v-card-title>
       <v-icon class="mr-2" color="#fcad74">mdi-book-open-variant</v-icon>
      บทเรียน
@@ -9,7 +15,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="ค้นหา"
         dense
         color="#099fae"
         single-line
@@ -41,7 +47,9 @@
        :search="search"
        :single-expand="singleExpand"
     :expanded.sync="expanded"
-    item-key="name">
+    item-key="name"
+    no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา">
        <template slot="data">
         <td>{{lesson_unit}}</td>
         <td>{{lesson_name}}</td>
@@ -64,13 +72,13 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:expanded-item="{ headers, item }">
+    <!-- <template v-slot:expanded-item="{ headers, item }">
       <td :colspan="headers.length" class="elevation-0 grey lighten-4">
         0.0 {{item.lesson_name}}
       </td>
-    </template>
+    </template> -->
     </v-data-table>
-    <v-dialog v-model="dialog1" max-width="600px">
+    <v-dialog v-model="dialog1" max-width="600px" persistent>
                   <v-card>
                     <v-card-title>
                       เพิ่มบทเรียน
@@ -78,7 +86,7 @@
                     <v-card-text>
                       <v-container>
                         <v-row>
-                          <v-form v-model="valid" ref="formInsert">
+                          <v-form v-model="valid1" ref="form1">
                           <v-col cols="12">
                             <v-text-field
                               label="บทที่"
@@ -113,12 +121,12 @@
                                   @ready="onEditorReady($event)"
                                   v-model="lesson_description"
                                 />
-                                <div class="output code">
+                                <!-- <div class="output code">
                                   <code class="hljs" v-html="contentCode"></code>
                                 </div>
                                 <div class="output ql-snow">
                                   <div class="ql-editor" v-html="content"></div>
-                                </div>
+                                </div> -->
                               </div>
                           </v-col>
                           </v-form>
@@ -136,7 +144,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-                <v-dialog v-model="dialog" max-width="600px">
+                <v-dialog v-model="dialog" max-width="600px" persistent>
                   <v-card>
                     <v-card-title>
                       แก้ไขบทเรียน
@@ -179,12 +187,12 @@
                                   @ready="onEditorReady($event)"
                                   v-model="lesson_description"
                                 />
-                                <div class="output code">
+                                <!-- <div class="output code">
                                   <code class="hljs" v-html="contentCode"></code>
                                 </div>
                                 <div class="output ql-snow">
                                   <div class="ql-editor" v-html="content"></div>
-                                </div>
+                                </div> -->
                               </div>
                           </v-col>
                           </v-form>
@@ -204,13 +212,6 @@
                 </v-dialog>
   </v-card>
 
-  <v-treeview
-          rounded
-          hoverable
-          activatable
-          :items="items"
-          open-all
-        ></v-treeview>
   </div>
 </template>
 
@@ -240,6 +241,18 @@ export default {
   },
   data () {
     return {
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'home'
+        },
+        {
+          text: 'จัดการบทเรียน',
+          disabled: true,
+          href: 'adminlesson'
+        }
+      ],
       items: [
         {
           id: 1,
@@ -286,7 +299,7 @@ export default {
         lesson_description: ''
       },
       valid: false,
-      valid2: false,
+      valid1: false,
       search: '',
       headers: [
         {
@@ -341,12 +354,14 @@ export default {
     },
     OpenDialog () {
       this.dialog1 = true
+      this.$refs.form.reset()
+      this.lesson_description = ''
     },
     async insertLesson () {
-      if (this.$refs.formInsert.validate()) { // กรอกครบมั้ย
+      if (this.$refs.form1.validate()) { // กรอกครบมั้ย
         var { data } = await axios.post('http://localhost/vue-backend/insertLesson.php', {
           // post_id: this.post_id,
-          lesson_id: this.lesson_id,
+          // lesson_id: this.lesson_id,
           lesson_unit: this.lesson_unit,
           lesson_name: this.lesson_name,
           lesson_description: this.lesson_description
@@ -363,10 +378,11 @@ export default {
             timer: 1500
           })
         }
-        // this.dialog1 = false
+        this.dialog1 = false
         this.getLesson()
-        this.$refs.formInsert.reset()
+        // this.$refs.form.reset()
         // this.lesson_description = ''
+        // this.$refs.form.reset()
         // this.postuser.post_detail = ''
       }
     },
@@ -405,6 +421,7 @@ export default {
       this.lesson_unit = data.lesson_unit
       this.lesson_name = data.lesson_name
       this.lesson_description = data.lesson_description
+      this.create_at = data.create_at
       // console.log('friend data item', data)
       // console.log(this.allshow)
     },
@@ -413,7 +430,8 @@ export default {
         lesson_id: this.lesson_id,
         lesson_unit: this.lesson_unit,
         lesson_name: this.lesson_name,
-        lesson_description: this.lesson_description
+        lesson_description: this.lesson_description,
+        create_at: this.create_at
       }
       var { data } = await axios.put('http://localhost/vue-backend/updateLesson.php', bodyValue)
       console.log(data, 'data here!')
@@ -429,6 +447,7 @@ export default {
           },
           timer: 1500
         })
+        this.dialog = false
         this.getLesson()
       // setTimeout(() => {
       //   this.getData()
@@ -529,6 +548,7 @@ font-family: 'Prompt', sans-serif;
         width: 100%;
       height: 30rem;
       overflow: hidden;
+      border-bottom: 0.5px solid #d2d2d2;
     }
 
     .output {
@@ -550,6 +570,9 @@ font-family: 'Prompt', sans-serif;
       }
       .v-data-table__expanded .v-data-table__expanded__content td{
   box-shadow: 0px;
+}
+.v-breadcrumbs >>> a {
+    color: #fcad74;
 }
 
 </style>

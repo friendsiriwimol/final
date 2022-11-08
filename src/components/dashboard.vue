@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-item-group mandatory class="mt-n4">
-      <v-toolbar color="rgba(0,0,0,0)" flat class="mt" style="margin-top: 20px">
+      <v-toolbar color="rgba(0,0,0,0)" flat>
         <v-toolbar-title>ภาพรวมระบบ</v-toolbar-title>
       </v-toolbar>
       <v-row justify="center" class="space">
@@ -53,33 +53,27 @@
               dark
             >รายชื่อนักศึกษา</v-toolbar>
             <v-card-text>
-              <v-simple-table
-              fixed-header
-              height="300px"
-              class="mt-7"
-            >
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            ชื่อ
-          </th>
-          <th class="text-left">
-            นามสกุล
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in allstudent"
-          v-bind:key="user.user_id"
-        >
-          <td>{{ user.user_firstname }}</td>
-          <td>{{ user.user_lastname }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+              <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        single-line
+        hide-details
+        color="#fcad74"
+        class="mt-5"
+      ></v-text-field>
+    </v-card-title>
+              <v-data-table
+        :items="alluser"
+        :headers="headers"
+        :items-per-page="5"
+        :search="search"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+        v-if="alluser.length"
+      >
+      </v-data-table>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn
@@ -141,33 +135,27 @@
               dark
             >รายชื่อเกษตรกร</v-toolbar>
             <v-card-text>
-              <v-simple-table
-              fixed-header
-              height="300px"
-              class="mt-7"
-            >
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            ชื่อ
-          </th>
-          <th class="text-left">
-            นามสกุล
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in allfarmer"
-          v-bind:key="user.user_id"
-        >
-          <td>{{ user.user_firstname }}</td>
-          <td>{{ user.user_lastname }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+              <v-card-title>
+      <v-text-field
+        v-model="search2"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        single-line
+        hide-details
+        color="#fcad74"
+        class="mt-5"
+      ></v-text-field>
+    </v-card-title>
+              <v-data-table
+        :items="allfarmer"
+        :headers="headers"
+        :items-per-page="5"
+        :search="search2"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+        v-if="allfarmer.length"
+      >
+      </v-data-table>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn
@@ -229,33 +217,27 @@
               dark
             >รายชื่อแอดมิน</v-toolbar>
             <v-card-text>
-              <v-simple-table
-              fixed-header
-              height="300px"
-              class="mt-7"
-            >
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            ชื่อ
-          </th>
-          <th class="text-left">
-            นามสกุล
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in alladmin"
-          v-bind:key="user.user_id"
-        >
-          <td>{{ user.user_firstname }}</td>
-          <td>{{ user.user_lastname }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+              <v-card-title>
+      <v-text-field
+        v-model="search3"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        single-line
+        hide-details
+        color="#fcad74"
+        class="mt-5"
+      ></v-text-field>
+    </v-card-title>
+              <v-data-table
+        :items="alladmin"
+        :headers="headers"
+        :items-per-page="5"
+        :search="search3"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+        v-if="alladmin.length"
+      >
+      </v-data-table>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn
@@ -317,33 +299,27 @@
               dark
             >รายชื่อผู้ใช้งานทั้งหมด</v-toolbar>
             <v-card-text>
-              <v-simple-table
-              fixed-header
-              height="300px"
-              class="mt-7"
-            >
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            ชื่อ
-          </th>
-          <th class="text-left">
-            นามสกุล
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in alluser"
-          v-bind:key="user.user_id"
-        >
-          <td>{{ user.user_firstname }}</td>
-          <td>{{ user.user_lastname }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+              <v-card-title>
+      <v-text-field
+        v-model="search4"
+        append-icon="mdi-magnify"
+        label="ค้นหา"
+        single-line
+        hide-details
+        color="#fcad74"
+        class="mt-5"
+      ></v-text-field>
+    </v-card-title>
+              <v-data-table
+        :items="alluser"
+        :headers="headers"
+        :items-per-page="5"
+        :search="search4"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
+        v-if="alluser.length"
+      >
+      </v-data-table>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn
@@ -366,7 +342,10 @@
               height="200"
               @click="toggle"
             >
-              <v-row>
+                  <v-row>
+                    <a
+                    href="adminpost"
+                    class="text-decoration-none">
                 <v-col cols="12" sm="12">
                   <v-list-item three-line class="mt-10">
                     <v-list-item-content>
@@ -376,18 +355,19 @@
                         >
                       </div>
                       <v-list-item-subtitle
-                        :class="active ? 'white--text' : 'black--text'"
+                        :class="active ? 'white--text' : 'black--text' "
                         >โพสต์รอการอนุมัติ</v-list-item-subtitle
                       >
                       <v-list-item-title
                         class="headline mb-1"
                         :class="active ? 'white--text' : 'black--text'"
                       >
-                        <strong>23</strong>
+                        <strong>{{allwaiting.length}}</strong>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-col>
+              </a>
               </v-row>
             </v-card>
           </v-item>
@@ -409,12 +389,27 @@ export default {
       allstudent: [],
       allfarmer: [],
       alladmin: [],
+      allwaiting: [],
       dialog: false,
       user: {
         user_id: '',
         user_firstname: '',
         user_lastname: ''
-      }
+      },
+      headers: [
+        {
+          text: 'ชื่อ',
+          align: 'start',
+          // sortable: false,
+          value: 'user_firstname'
+        },
+        { text: 'นามสกุล', value: 'user_lastname' },
+        { text: 'อีเมล', value: 'user_email' }
+      ],
+      search: '',
+      search2: '',
+      search3: '',
+      search4: ''
     }
   },
   created () {
@@ -422,6 +417,7 @@ export default {
     this.getAllStudent()
     this.getAllFarmer()
     this.getAllAdmin()
+    this.getPostWaiting()
   },
   methods: {
     async getAllUser () {
@@ -455,6 +451,15 @@ export default {
           this.alladmin = res.data
         }
       })
+    },
+    async getPostWaiting () {
+      axios.get('http://localhost/vue-backend/postWaiting.php').then((res) => {
+        console.log('waiting:', res.data)
+        if (res.data) {
+          // this.allpost = res.data
+          this.allwaiting = res.data
+        }
+      })
     }
   }
 }
@@ -463,5 +468,8 @@ export default {
 <style>
 .mt-n5 {
   margin-top: 20px;
+}
+.v-list-item-content >>> .v-icon{
+  text-decoration: none;
 }
 </style>

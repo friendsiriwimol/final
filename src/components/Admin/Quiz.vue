@@ -1,7 +1,13 @@
 <template>
 <div>
   <NavbarAdmin/>
-  <v-card class="cardShowuser">
+  <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+  <v-card class="cardShowuser mt-0">
     <v-card-title>
       <v-icon class="mr-2" color="#fcad74">mdi-notebook-edit</v-icon>
      แบบทดสอบ
@@ -9,18 +15,21 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="ค้นหา"
         dense
         color="#099fae"
         single-line
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-card-title>
-      <v-spacer></v-spacer>
-    </v-card-title>
     <!-- <v-card-title>friend</v-card-title> -->
-       <v-data-table :items="alllesson" :headers="headers" :items-per-page="5" :search="search">
+       <v-data-table
+       :items="alllesson"
+       :headers="headers"
+       :items-per-page="5"
+       :search="search"
+       no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา">
        <template slot="data">
         <td>{{lesson_unit}}</td>
         <td>{{lesson_name}}</td>
@@ -68,6 +77,18 @@ export default {
         lesson_name: '',
         lesson_description: ''
       },
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'admindashboard'
+        },
+        {
+          text: 'จัดการแบบทดสอบ',
+          disabled: true,
+          href: 'adminquiz'
+        }
+      ],
       valid: false,
       valid2: false,
       search: '',
@@ -166,5 +187,8 @@ font-family: 'Prompt', sans-serif;
         border-top: none;
         height: 24rem;
       }
+      .v-breadcrumbs >>> a {
+    color: #fcad74;
+}
 
 </style>

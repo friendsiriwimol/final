@@ -1,7 +1,13 @@
 <template>
 <div >
   <NavbarUser/>
-      <h1 class="mt-7 mb-7" align="center">บทเรียน</h1>
+  <div>
+    <v-breadcrumbs
+      :items="breadcrumbs"
+      large
+    ></v-breadcrumbs>
+  </div>
+      <h1 class="mt-0 mb-7" align="center">บทเรียน</h1>
       <div class="row">
         <div class="col-md-12">
 <v-row>
@@ -16,11 +22,10 @@
     >
 
     <v-img
-      class="white--text align-end"
+      class="black--text align-end"
       height="200px"
-      src="https://images.pexels.com/photos/2255459/pexels-photo-2255459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    >
-      <v-card-title>บทที่ {{lesson.lesson_unit}} </v-card-title>
+      :src="lesson.lesson_unitimg">
+      <v-card-title>บทที่ {{lesson.lesson_unit}}</v-card-title>
     </v-img>
 
     <!-- <v-card-subtitle class="pb-0">
@@ -102,7 +107,19 @@ export default {
     lesson: {
       lesson_unit: '',
       lesson_name: ''
-    }
+    },
+    breadcrumbs: [
+      {
+        text: 'หน้าแรก',
+        disabled: false,
+        href: 'post'
+      },
+      {
+        text: 'บทเรียน',
+        disabled: true,
+        href: 'lesson'
+      }
+    ]
   }),
   created () {
     this.getLesson()
@@ -128,7 +145,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 *{
 font-family: 'Prompt', sans-serif;
@@ -138,9 +155,6 @@ font-family: 'Prompt', sans-serif;
   text-align: center;
   font-size: 20px;
 }
-// .container{
-//   margin-left: 40%;
-// }
 h1{
   color: #000;
 }
@@ -149,8 +163,7 @@ h1{
  height: 100px;
  text-align: center;
 }
-.mx{
-  // margin-top: 40px;
+.mx {
   height: 400px;
   padding: 20px;
   margin-left: auto;
@@ -181,16 +194,14 @@ a{
 
 .v-card {
   transition: opacity .5s ease-in-out rgb(255, 255, 107) ;
-  //  border: 5px solid #56a062 !important;
-    // border-radius: 21px;
     box-shadow: 1px 1px 9px 9px lightblue;
 }
-.v-card:not(.on-hover) {
-  // opacity: 0.5;
-  // box-shadow: 1px 1px 9px 9px lightblue;
- }
+
 .show-btns {
   color: #feedb0 !important;
   box-shadow: 10px 10px 5px 12px lightblue;
+}
+.v-breadcrumbs >>> a {
+    color: #fcad74;
 }
 </style>

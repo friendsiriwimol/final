@@ -31,7 +31,7 @@
         class="mx-10"
         flat
         hide-details
-        label="Search"
+        label="ค้นหา"
         prepend-inner-icon="mdi-magnify"
         solo-inverted
       ></v-text-field>
@@ -311,9 +311,6 @@ export default {
           timer: 1500
         })
         this.getUser()
-        // setTimeout(() => {
-        //   this.getData()
-        // }, 2000)
       }
     },
     // closedialog () {

@@ -1,14 +1,20 @@
 <template>
   <div>
     <NavbarAdmin />
-    <v-card class="cardShowuser">
+    <div>
+<v-breadcrumbs
+  :items="breadcrumbs"
+  large
+></v-breadcrumbs>
+</div>
+    <v-card class="cardShowuser mt-0">
       <v-tabs background-color="transparent" color="#099fae" grow v-model="tab">
         <v-tab @click="getUser('all')"> ทั้งหมด </v-tab>
         <v-tab @click="getStudent('student')"> นักศึกษา </v-tab>
         <v-tab @click="getFarmer('farmer')"> เกษตรกร </v-tab>
         <v-tab @click="getAdmin('admin')"> แอดมิน </v-tab>
       </v-tabs>
-      <v-card-title>
+      <v-card-title v-show="type === 'all'">
         <!-- <v-tabs-items v-model="tab">
       <v-tab-item
         v-for="item in items"
@@ -18,7 +24,7 @@
     </v-tabs-items> -->
         <v-icon class="mr-2" color="#fcad74">mdi-account-cog</v-icon>
         รายชื่อผู้ใช้
-        <v-btn class="ml-5 text-capitalize" color="#e5ffee" dark elevation="1" @click="onExport()">
+        <v-btn class="ml-5 text-capitalize" color="#e5ffee" dark elevation="1" @click="onExportall()">
           <span style="color:#2a7e4a;"><v-icon left> mdi-microsoft-excel </v-icon>Export</span></v-btn>
         <v-spacer></v-spacer>
         <!-- <button @click="exportUser()" value="Export">โหลด</button> -->
@@ -28,7 +34,7 @@
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search"
+          label="ค้นหา"
           dense
           color="#099fae"
           single-line
@@ -97,13 +103,38 @@
       <div v-if="!alluser.length && type === 'all'">
         <h1>ไม่พบข้อมูล 1111</h1>
       </div>
+
+      <v-card-title v-show="type === 'student'">
+        <!-- <v-tabs-items v-model="tab">
+      <v-tab-item
+        v-for="item in items"
+        :key="item"
+      >
+      </v-tab-item>
+    </v-tabs-items> -->
+        <v-icon class="mr-2" color="#fcad74">mdi-account-cog</v-icon>
+        รายชื่อผู้ใช้
+        <v-btn class="ml-5 text-capitalize" color="#e5ffee" dark elevation="1" @click="onExportstudent()">
+          <span style="color:#2a7e4a;"><v-icon left> mdi-microsoft-excel </v-icon>Export</span></v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="ค้นหา"
+          dense
+          color="#099fae"
+          single-line
+          hide-details
+        ></v-text-field>
+        </v-card-title>
       <v-data-table
         :items="alluser"
         :headers="headers"
         :items-per-page="5"
         :search="search"
         v-show="type === 'student'"
-        no-data-text="'ไม่พบข้อมูล"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
         v-if="alluser.length"
       >
         <template v-slot:[`item.user_type`]="{ item }">
@@ -147,13 +178,38 @@
             <div v-if="!alluser.length && type === 'student'">
         <h1>ไม่พบข้อมูล 2222</h1>
       </div>
+
+      <v-card-title  v-show="type === 'farmer'">
+        <!-- <v-tabs-items v-model="tab">
+      <v-tab-item
+        v-for="item in items"
+        :key="item"
+      >
+      </v-tab-item>
+    </v-tabs-items> -->
+        <v-icon class="mr-2" color="#fcad74">mdi-account-cog</v-icon>
+        รายชื่อผู้ใช้
+        <v-btn class="ml-5 text-capitalize" color="#e5ffee" dark elevation="1" @click="onExportfarmer()">
+          <span style="color:#2a7e4a;"><v-icon left> mdi-microsoft-excel </v-icon>Export</span></v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="ค้นหา"
+          dense
+          color="#099fae"
+          single-line
+          hide-details
+        ></v-text-field>
+        </v-card-title>
       <v-data-table
         :items="alluser"
         :headers="headers"
         :items-per-page="5"
         :search="search"
         v-show="type === 'farmer'"
-        no-data-text="'ไม่พบข้อมูล"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
         v-if="alluser.length"
       >
          <template v-slot:[`item.user_type`]="{ item }">
@@ -197,13 +253,37 @@
             <div v-if="!alluser.length && type === 'farmer'">
         <h1>ไม่พบข้อมูล 3333</h1>
       </div>
+      <v-card-title  v-show="type === 'admin'">
+        <!-- <v-tabs-items v-model="tab">
+      <v-tab-item
+        v-for="item in items"
+        :key="item"
+      >
+      </v-tab-item>
+    </v-tabs-items> -->
+        <v-icon class="mr-2" color="#fcad74">mdi-account-cog</v-icon>
+        รายชื่อผู้ใช้
+        <v-btn class="ml-5 text-capitalize" color="#e5ffee" dark elevation="1" @click="onExportadmin()">
+          <span style="color:#2a7e4a;"><v-icon left> mdi-microsoft-excel </v-icon>Export</span></v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="ค้นหา"
+          dense
+          color="#099fae"
+          single-line
+          hide-details
+        ></v-text-field>
+        </v-card-title>
       <v-data-table
         :items="alluser"
         :headers="headers"
         :items-per-page="5"
         :search="search"
         v-show="type === 'admin'"
-        no-data-text="'ไม่พบข้อมูล"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
         v-if="alluser.length"
       >
  <template v-slot:[`item.user_type`]="{ item }">
@@ -397,6 +477,18 @@ export default {
       ],
       data: {},
       export: 'export',
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'admindashboard'
+        },
+        {
+          text: 'จัดการผู้ใช้',
+          disabled: true,
+          href: 'adminuser'
+        }
+      ],
       json: [
         { name: 'Dady', age: '21' },
         { name: 'Jonh', age: '25' },
@@ -449,6 +541,7 @@ export default {
         console.log('data:', res.data)
         if (res.data) {
           this.alluser = res.data
+          this.allstudent = res.data
         }
       })
     },
@@ -458,6 +551,7 @@ export default {
         console.log('data:', res.data)
         if (res.data) {
           this.alluser = res.data
+          this.allfarmer = res.data
         }
       })
     },
@@ -467,6 +561,7 @@ export default {
         console.log('data:', res.data)
         if (res.data) {
           this.alluser = res.data
+          this.alladmin = res.data
         }
       })
     },
@@ -482,6 +577,8 @@ export default {
       this.user_tel = data.user_tel
       this.user_type = data.user_type
       this.user_age = data.user_age
+      this.create_at = data.create_at
+
       // console.log('friend data item', data)
       // console.log(this.allshow)
     },
@@ -494,7 +591,9 @@ export default {
         user_password: this.user_password,
         user_tel: this.user_tel,
         user_type: this.user_type,
-        user_age: this.user_age
+        user_age: this.user_age,
+        create_at: this.create_at
+
       }
       var { data: update } = await axios.put(
         'http://localhost/vue-backend/updateUser.php',
@@ -561,12 +660,32 @@ export default {
         this.getAdmin('admin')
       }
     },
-    onExport () {
-      // console.log('log')
+    onExportall () {
       const dataWS = XLSX.utils.json_to_sheet(this.alluser)
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, dataWS)
       XLSX.writeFile(wb, 'รายชื่อผู้ใช้งาน.xlsx')
+    },
+    onExportstudent () {
+      console.log('student', this.allstudent)
+      const dataWS = XLSX.utils.json_to_sheet(this.allstudent)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, dataWS)
+      XLSX.writeFile(wb, 'รายชื่อนักศึกษา.xlsx')
+    },
+    onExportfarmer () {
+      // console.log('log')
+      const dataWS = XLSX.utils.json_to_sheet(this.allfarmer)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, dataWS)
+      XLSX.writeFile(wb, 'รายชื่อเกษตรกร.xlsx')
+    },
+    onExportadmin () {
+      // console.log('log')
+      const dataWS = XLSX.utils.json_to_sheet(this.alladmin)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, dataWS)
+      XLSX.writeFile(wb, 'รายชื่อแอดมิน.xlsx')
     }
   }
 }
@@ -584,5 +703,8 @@ export default {
 }
 .head {
   background-color: red;
+}
+.v-breadcrumbs >>> a {
+    color: #fcad74;
 }
 </style>

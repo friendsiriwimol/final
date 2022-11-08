@@ -1,6 +1,12 @@
 <template>
 <div>
   <NavbarUser/>
+  <div>
+    <v-breadcrumbs
+      :items="breadcrumbs"
+      large
+    ></v-breadcrumbs>
+  </div>
       <h1 class="mt-7 mb-7" align="center">แบบทดสอบ</h1>
     <!-- <v-card class="cardShowuser">
     <v-card-title>
@@ -72,7 +78,7 @@
   </v-col>
   </v-row> -->
 
-  <v-card class="cardShowuser">
+  <v-card class="cardShowuser mt-0">
 
   <v-simple-table>
     <template v-slot:default>
@@ -106,7 +112,6 @@
               >
             ทำข้อสอบ
           </v-btn>
-          <v-btn></v-btn>
           <!-- <router-link v-bind:to="'/test/'+ lesson.lesson_id"><div>click</div></router-link> -->
           <!-- </a> -->
           </td>
@@ -148,7 +153,19 @@ export default {
       { text: '', value: 'delete', sortable: false }
 
     ],
-    data: []
+    data: [],
+    breadcrumbs: [
+      {
+        text: 'หน้าแรก',
+        disabled: false,
+        href: 'post'
+      },
+      {
+        text: 'แบบทดสอบ',
+        disabled: true,
+        href: 'quiz'
+      }
+    ]
 
   }),
   created () {
@@ -187,7 +204,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 *{
 font-family: 'Prompt', sans-serif;
@@ -238,12 +255,8 @@ a{
 
 .v-card {
   transition: opacity .5s ease-in-out rgb(255, 255, 107) ;
-  //  border: 5px solid #d9f0dd !important;
-    // border-radius: 21px;
-    // background-color: #f4f9e6;
 }
 .v-card:not(.on-hover) {
-  // opacity: 0.5;
   box-shadow: 1px 1px 10px px rgb(179, 179, 149);
  }
 
@@ -286,12 +299,9 @@ a{
 }
 .quiz{
 text-align: center;
-// margin-top: 30px;
 }
-// @media screen and (max-width: 530px)
-//   .mx {
-//     padding: 1em}
-//   .card-title h2{
-//     font-size: 1.3em }
+.v-breadcrumbs >>> a {
+    color: #fcad74;
+}
 
 </style>

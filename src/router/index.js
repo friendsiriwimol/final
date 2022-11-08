@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import post from '../components/User/Post.vue'
 import register from '../components/Registerr.vue'
-import login from '../components/Loginn.vue'
+import login from '../components/Login.vue'
 import edituser from '../components/Admin/Edituser.vue'
 import editLesson from '../components/Admin/Editlesson.vue'
 import adminLesson from '../components/Admin/Lesson.vue'
@@ -14,7 +14,7 @@ import quizlesson from '../components/User/Quizlesson.vue'
 import video from '../components/User/Video.vue'
 import profile from '../components/User/Profile.vue'
 import adminprofile from '../components/Admin/Profile.vue'
-import history from '../components/User/history.vue'
+import history from '../components/User/History.vue'
 import editor from '../components/Editor.vue'
 import q from '../components/q.vue'
 import adminUser from '../components/Admin/User.vue'
@@ -24,14 +24,16 @@ import test from '../components/test.vue'
 import quizmore from '../components/User/Quizmore.vue'
 import adminquiz from '../components/Admin/Quiz.vue'
 import testImage from '../components/testImage.vue'
-import home from '../components/Home.vue'
+import admindashboard from '../components/Admin/Dashboard.vue'
 import adminhome from '../components/Admin/Home.vue'
 import adminwebsite from '../components/Admin/Website.vue'
 import admininsertquiz from '../components/Admin/Insertquiz.vue'
 import testParams from '../components/testparams.vue'
 import testImg from '../components/testshowimg.vue'
-import testUploadImg from '../components/Admin/test'
+import testUploadImg from '../components/Admin/test.vue'
 import lessondetail from '../components/User/Lessondetail'
+import adminvideo from '../components/Admin/Video'
+import testVideo from '../components/testVideo'
 
 Vue.use(VueRouter)
 
@@ -43,7 +45,7 @@ const routes = [
     component: post
   },
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     component: login
   },
@@ -158,9 +160,9 @@ const routes = [
     component: testImage
   },
   {
-    path: '/home',
-    name: 'home',
-    component: home
+    path: '/admindashboard',
+    name: 'admindashboard',
+    component: admindashboard
   },
   {
     path: '/adminhome',
@@ -196,6 +198,16 @@ const routes = [
     path: '/lessondetail/:id',
     name: 'lessondetail',
     component: lessondetail
+  },
+  {
+    path: '/adminvideo',
+    name: 'adminvideo',
+    component: adminvideo
+  },
+  {
+    path: '/testVideo',
+    name: 'testVideo',
+    component: testVideo
   }
   // {
   //   path: '/profileadmin',

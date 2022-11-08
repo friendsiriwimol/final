@@ -205,7 +205,7 @@
           <div class="content">
             <h3>เข้าสู่ระบบ ?</h3>
             <p>ทำการเข้าสู่ระบบ บัญชีผู้ใช้ของท่าน</p>
-            <input type="button"  class="button button3 btn transparent login" value="เข้าสู่ระบบ" onclick="window.location.href='/Login'"/>
+            <input type="button"  class="button button3 btn transparent login" value="เข้าสู่ระบบ" onclick="window.location.href='/'"/>
 
           </div>
           <img src="../assets/register.png" alt="img" class="image">
@@ -299,7 +299,7 @@ export default {
               timer: 1500
             })
           })
-        this.$router.push('/Login')
+        this.$router.push('/')
           .catch(function (error) {
             console.log(error)
           })
