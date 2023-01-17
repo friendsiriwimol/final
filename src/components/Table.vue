@@ -2,7 +2,7 @@
   <div>
     <v-container>
        <v-toolbar color="rgba(0,0,0,0)" flat class="pt-2">
-                <v-toolbar-title class=""> ผู้ดูแลระบบ </v-toolbar-title>
+                <v-toolbar-title class=""> จัดลำดับคะเเนนสูงสุด </v-toolbar-title>
               </v-toolbar>
               <v-simple-table class="transparent mt-n2">
                 <template v-slot:default>
