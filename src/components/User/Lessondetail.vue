@@ -1,13 +1,34 @@
 <template>
   <div>
     <NavbarUser/>
+    <div>
+    <v-breadcrumbs
+      :items="breadcrumbs"
+      large
+    ></v-breadcrumbs>
+  </div>
     <!-- <div>{{item.lesson_unit}}</div>
     <div>{{item.lesson_name}}</div>
     <div>{{item}}</div> -->
-    <v-card class="mt-7 mb-7">
+    <v-card class="mt-7 mb-7 pa-5">
+      <h1 class="text-center ma-5">บทที่ {{ this.$route.params.id }} {{item.lesson_unit}} <span class="teal--text">{{item.lesson_name}}</span></h1>
     <div class="output ql-snow">
       <div class="ql-editor" v-html="item.lesson_description"></div>
     </div>
+    <v-card  elevation="0" style="border-color:#fcad74; border-width: 2px;" rounded outlined >
+      <v-card-title>
+        เว็บไซต์ที่เกี่ยวข้อง
+      </v-card-title>
+      <v-card-subtitle>
+        <div  v-for="website in allwebsite" v-bind:key="website.website_id">
+      <ul v-if="website.lesson_id === item.lesson_id">
+        <li>{{ website.website_name }}</li>
+        <!-- <li>{{ website.website_id }}</li> -->
+      </ul>
+    </div>
+    </v-card-subtitle>
+
+    </v-card>
 </v-card>
   </div>
 </template>
@@ -15,6 +36,7 @@
 <script>
 import axios from 'axios'
 import NavbarUser from '@/components/NavbarUser'
+// import { all } from 'q'
 export default {
   components: {
     NavbarUser
@@ -24,6 +46,10 @@ export default {
   data () {
     return {
       alllesson: [],
+      allwebsite: [],
+      website: {
+        website_id: ''
+      },
       item: '',
       lesson: {
         lesson_id: '',
@@ -34,12 +60,31 @@ export default {
       lesson_id: '',
       lesson_unit: '',
       lesson_name: '',
-      lesson_description: ''
+      lesson_description: '',
+      breadcrumbs: [
+        {
+          text: 'หน้าแรก',
+          disabled: false,
+          to: { name: 'post' }
+        },
+        {
+          text: 'บทเรียน',
+          disabled: false,
+          // href: 'lesson'
+          to: { name: 'lesson' }
+        },
+        {
+          text: 'รายละเอียดบทเรียน',
+          disabled: true
+          // href: 'lessondetail'
+        }
+      ]
     }
   },
   created () {
     this.lesson_id = this.$route.params.id
     this.getLesson()
+    this.getWebsite()
   },
   inject: [
     'getLesson'
@@ -54,8 +99,17 @@ export default {
       axios.get('http://localhost/vue-backend/lesson.php?id=this.lesson_id').then((res) => {
         console.log('data:', res.data)
         if (res.data) {
-          this.item = res.data[this.lesson_id - 2]
+          this.item = res.data[this.lesson_id]
           console.log('item', this.item)
+        }
+      })
+    },
+    async getWebsite () {
+      axios.get('http://localhost/vue-backend/website.php').then((res) => {
+        console.log('data:', res.data)
+        if (res.data) {
+          this.allwebsite = res.data
+          console.log(this.allwebsite, 'เว็บไซต์')
         }
       })
     }
@@ -63,30 +117,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.example {
-  display: flex;
-  height: 30rem;
-  overflow: hidden;
-  .editor,
-  .output {
-    width: 50%;
-  }
-  $toolbar-height: 41px;
-  .editor {
-    padding-bottom: $toolbar-height;
-    .ql-custom-button {
-      width: 100px;
-    }
-  }
-  .output {
-    border: 1px solid #ccc;
-    border-left: none;
-    .title {
-      height: $toolbar-height;
-      line-height: $toolbar-height;
-      border-bottom: 1px solid #ccc;
-    }
-  }
+<style scoped>
+
+.v-breadcrumbs >>> a {
+    color: #fcad74 !important;
 }
 </style>

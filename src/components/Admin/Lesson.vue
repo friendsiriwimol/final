@@ -1,217 +1,198 @@
 <template>
-<div>
-  <NavbarAdmin/>
   <div>
-<v-breadcrumbs
-  :items="breadcrumbs"
-  large
-></v-breadcrumbs>
-</div>
-  <v-card class="cardShowuser mt-0">
-    <v-card-title>
-      <v-icon class="mr-2" color="#fcad74">mdi-book-open-variant</v-icon>
-     บทเรียน
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="ค้นหา"
-        dense
-        color="#099fae"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-card-title>
-      <v-spacer></v-spacer>
-    <v-btn
-      class="mx-2"
-      fab
-      dark
-      small
-      color="#099fae"
-      @click="OpenDialog()"
-
-    >
-      <v-icon dark
+    <NavbarAdmin />
+    <div>
+      <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
+    </div>
+    <v-card class="cardShowuser mt-0">
+      <v-card-title>
+        <v-icon class="mr-2" color="#fcad74">mdi-book-open-variant</v-icon>
+        บทเรียน
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="ค้นหา"
+          dense
+          color="#099fae"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-card-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="#099fae"
+          @click="OpenDialog()"
+        >
+          <v-icon dark> mdi-plus </v-icon>
+        </v-btn>
+      </v-card-title>
+      <!-- <v-card-title>friend</v-card-title> -->
+      <v-data-table
+        :items="alllesson"
+        :headers="headers"
+        :items-per-page="5"
+        :search="search"
+        :single-expand="singleExpand"
+        :expanded.sync="expanded"
+        item-key="name"
+        no-data-text="ไม่พบข้อมูล"
+        no-results-text="ไม่พบข้อมูลที่ค้นหา"
       >
-        mdi-plus
-      </v-icon>
-    </v-btn>
-    </v-card-title>
-    <!-- <v-card-title>friend</v-card-title> -->
-       <v-data-table
-       :items="alllesson"
-       :headers="headers"
-       :items-per-page="5"
-       :search="search"
-       :single-expand="singleExpand"
-    :expanded.sync="expanded"
-    item-key="name"
-    no-data-text="ไม่พบข้อมูล"
-        no-results-text="ไม่พบข้อมูลที่ค้นหา">
-       <template slot="data">
-        <td>{{lesson_unit}}</td>
-        <td>{{lesson_name}}</td>
-      </template>
-      <template v-slot:item.edit="{ item }">
-      <v-icon
-        small
-        @click="editItem(item)"
-        color="#56a062"
-      >
-        mdi-pencil
-      </v-icon>
-    </template>
-    <template v-slot:item.delete="{ item }">
-      <v-icon
-        small
-        @click="deleteItem(item)"
-        color="#ea5859"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-    <!-- <template v-slot:expanded-item="{ headers, item }">
+        <template slot="data">
+          <td>{{ lesson_unit }}</td>
+          <td>{{ lesson_name }}</td>
+        </template>
+        <template v-slot:item.edit="{ item }">
+          <v-icon small @click="editItem(item)" color="#56a062">
+            mdi-pencil
+          </v-icon>
+        </template>
+        <template v-slot:item.delete="{ item }">
+          <v-icon small @click="deleteItem(item)" color="#ea5859">
+            mdi-delete
+          </v-icon>
+        </template>
+        <!-- <template v-slot:expanded-item="{ headers, item }">
       <td :colspan="headers.length" class="elevation-0 grey lighten-4">
         0.0 {{item.lesson_name}}
       </td>
     </template> -->
-    </v-data-table>
-    <v-dialog v-model="dialog1" max-width="600px" persistent>
-                  <v-card>
-                    <v-card-title>
-                      เพิ่มบทเรียน
-                    </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-form v-model="valid1" ref="form1">
-                          <v-col cols="12">
-                            <v-text-field
-                              label="บทที่"
-                              required
-                              v-model="lesson_unit"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              label="บทเรียนเรื่อง"
-                              required
-                              v-model="lesson_name"
-                            ></v-text-field>
-                          </v-col>
-                          <!-- <v-col cols="12">
+      </v-data-table>
+      <v-dialog v-model="dialog1" max-width="600px" persistent>
+        <v-card>
+          <v-card-title> เพิ่มบทเรียน </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-form v-model="valid1" ref="form1">
+                  <v-col cols="12">
+                    <v-text-field
+                      label="บทที่"
+                      required
+                      v-model="lesson_unit"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="บทเรียนเรื่อง"
+                      required
+                      v-model="lesson_name"
+                    ></v-text-field>
+                  </v-col>
+                  <!-- <v-col cols="12">
                             <v-text-field
                               label="เนื้อหาบทเรียน"
                               v-model="lesson_description"
                               required
                             ></v-text-field>
                           </v-col> -->
-                          <v-col cols="12">
-                              <div class="example">
-                                <quill-editor
-                                  class="editor"
-                                  ref="myTextEditor"
-                                  :value="content"
-                                  :options="editorOption"
-                                  @change="onEditorChange"
-                                  @blur="onEditorBlur($event)"
-                                  @focus="onEditorFocus($event)"
-                                  @ready="onEditorReady($event)"
-                                  v-model="lesson_description"
-                                />
-                                <!-- <div class="output code">
+                  <v-col cols="12">
+                    <div class="example">
+                      <quill-editor
+                        class="editor"
+                        ref="myTextEditor"
+                        :value="content"
+                        :options="editorOption"
+                        @change="onEditorChange"
+                        @blur="onEditorBlur($event)"
+                        @focus="onEditorFocus($event)"
+                        @ready="onEditorReady($event)"
+                        v-model="lesson_description"
+                      />
+                      <!-- <div class="output code">
                                   <code class="hljs" v-html="contentCode"></code>
                                 </div>
                                 <div class="output ql-snow">
                                   <div class="ql-editor" v-html="content"></div>
                                 </div> -->
-                              </div>
-                          </v-col>
-                          </v-form>
-                          </v-row>
-                      </v-container>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" text @click="dialog1 = false">
-                        ปิด
-                      </v-btn>
-                      <v-btn color="blue darken-1" text @click="insertLesson()">
-                        บันทึก
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                <v-dialog v-model="dialog" max-width="600px" persistent>
-                  <v-card>
-                    <v-card-title>
-                      แก้ไขบทเรียน
-                    </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-form v-model="valid" ref="form">
-                          <v-col cols="12">
-                            <v-text-field
-                              label="บทที่"
-                              required
-                              v-model="lesson_unit"
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="12">
-                            <v-text-field
-                              label="บทเรียนเรื่อง"
-                              required
-                              v-model="lesson_name"
-                            ></v-text-field>
-                          </v-col>
-                          <!-- <v-col cols="12">
+                    </div>
+                  </v-col>
+                </v-form>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog1 = false">
+              ปิด
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="insertLesson()">
+              บันทึก
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialog" max-width="600px" persistent>
+        <v-card>
+          <v-card-title> แก้ไขบทเรียน </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-form v-model="valid" ref="form">
+                  <v-col cols="12">
+                    <v-text-field
+                      label="บทที่"
+                      required
+                      v-model="lesson_unit"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="บทเรียนเรื่อง"
+                      required
+                      v-model="lesson_name"
+                    ></v-text-field>
+                  </v-col>
+                  <!-- <v-col cols="12">
                             <v-text-field
                               label="เนื้อหาบทเรียน"
                               v-model="lesson_description"
                               required
                             ></v-text-field>
                           </v-col> -->
-                          <v-col cols="12">
-                              <div class="example">
-                                <quill-editor
-                                  class="editor"
-                                  ref="myTextEditor"
-                                  :value="content"
-                                  :options="editorOption"
-                                  @change="onEditorChange"
-                                  @blur="onEditorBlur($event)"
-                                  @focus="onEditorFocus($event)"
-                                  @ready="onEditorReady($event)"
-                                  v-model="lesson_description"
-                                />
-                                <!-- <div class="output code">
+                  <v-col cols="12">
+                    <div class="example">
+                      <quill-editor
+                        class="editor"
+                        ref="myTextEditor"
+                        :value="content"
+                        :options="editorOption"
+                        @change="onEditorChange"
+                        @blur="onEditorBlur($event)"
+                        @focus="onEditorFocus($event)"
+                        @ready="onEditorReady($event)"
+                        v-model="lesson_description"
+                      />
+                      <!-- <div class="output code">
                                   <code class="hljs" v-html="contentCode"></code>
                                 </div>
                                 <div class="output ql-snow">
                                   <div class="ql-editor" v-html="content"></div>
                                 </div> -->
-                              </div>
-                          </v-col>
-                          </v-form>
-                          </v-row>
-                      </v-container>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" text @click="dialog = false">
-                        ปิด
-                      </v-btn>
-                      <v-btn color="blue darken-1" text @click="saveUpdate()">
-                        บันทึก
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-  </v-card>
-
+                    </div>
+                  </v-col>
+                </v-form>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              ปิด
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="saveUpdate()">
+              บันทึก
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-card>
   </div>
 </template>
 
@@ -311,7 +292,6 @@ export default {
         // { text: 'เนื้อหาบทเรียน', value: 'lesson_description' },
         { text: 'แก้ไข', value: 'edit', sortable: false },
         { text: 'ลบ', value: 'delete', sortable: false }
-
       ],
       data: [],
       editorOption: {
@@ -333,7 +313,7 @@ export default {
             ['link', 'image', 'video']
           ],
           syntax: {
-            highlight: text => hljs.highlightAuto(text).value
+            highlight: (text) => hljs.highlightAuto(text).value
           }
         }
       },
@@ -358,20 +338,24 @@ export default {
       this.lesson_description = ''
     },
     async insertLesson () {
-      if (this.$refs.form1.validate()) { // กรอกครบมั้ย
-        var { data } = await axios.post('http://localhost/vue-backend/insertLesson.php', {
-          // post_id: this.post_id,
-          // lesson_id: this.lesson_id,
-          lesson_unit: this.lesson_unit,
-          lesson_name: this.lesson_name,
-          lesson_description: this.lesson_description
-        })
+      if (this.$refs.form1.validate()) {
+        // กรอกครบมั้ย
+        var { data } = await axios.post(
+          'http://localhost/vue-backend/insertLesson.php',
+          {
+            // post_id: this.post_id,
+            // lesson_id: this.lesson_id,
+            lesson_unit: this.lesson_unit,
+            lesson_name: this.lesson_name,
+            lesson_description: this.lesson_description
+          }
+        )
         if (data === 'success') {
           Swal.fire({
             icon: 'success',
             title: 'เพิ่มสำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -433,7 +417,10 @@ export default {
         lesson_description: this.lesson_description,
         create_at: this.create_at
       }
-      var { data } = await axios.put('http://localhost/vue-backend/updateLesson.php', bodyValue)
+      var { data } = await axios.put(
+        'http://localhost/vue-backend/updateLesson.php',
+        bodyValue
+      )
       console.log(data, 'data here!')
       if (data === 'success') {
         this.dialog = false
@@ -441,7 +428,7 @@ export default {
           icon: 'success',
           title: 'แก้ไขสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -449,9 +436,9 @@ export default {
         })
         this.dialog = false
         this.getLesson()
-      // setTimeout(() => {
-      //   this.getData()
-      // }, 2000)
+        // setTimeout(() => {
+        //   this.getData()
+        // }, 2000)
       }
     },
     // closedialog () {
@@ -459,44 +446,47 @@ export default {
     // }
     async deleteItem (data) {
       // var idDel = parseInt(data.id)
-      var { data: deletes } = await axios.post('http://localhost/vue-backend/deleteLesson.php', {
-        lesson_id: data.lesson_id
-      })
+      var { data: deletes } = await axios.post(
+        'http://localhost/vue-backend/deleteLesson.php',
+        {
+          lesson_id: data.lesson_id
+        }
+      )
       console.log(deletes, 'delete')
       if (deletes === 'success') {
-      // this.dialog = false
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: 'ลบสำเร็จ',
-      //   showConfirmButton: false,
-      //   text: 'คำอธิบาย',
-      //   customClass: {
-      //     title: 'csss'
-      //   },
-      //   timer: 1500
-      // })
+        this.dialog = false
         Swal.fire({
-          title: 'คุณต้องการลบบทเรียน?',
-          // text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Delete'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              icon: 'success',
-              title: 'ลบสำเร็จ',
-              showConfirmButton: false,
-              // text: 'คำอธิบาย',
-              customClass: {
-                title: 'csss'
-              },
-              timer: 1500
-            })
-          }
+          icon: 'success',
+          title: 'ลบสำเร็จ',
+          showConfirmButton: false,
+          // text: 'คำอธิบาย',
+          customClass: {
+            title: 'csss'
+          },
+          timer: 1500
         })
+        // Swal.fire({
+        //   title: 'คุณต้องการลบบทเรียน?',
+        //   // text: "You won't be able to revert this!",
+        //   icon: 'warning',
+        //   showCancelButton: true,
+        //   confirmButtonColor: '#3085d6',
+        //   cancelButtonColor: '#d33',
+        //   confirmButtonText: 'Delete'
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //     Swal.fire({
+        //       icon: 'success',
+        //       title: 'ลบสำเร็จ',
+        //       showConfirmButton: false,
+        //       // text: 'คำอธิบาย',
+        //       customClass: {
+        //         title: 'csss'
+        //       },
+        //       timer: 1500
+        //     })
+        //   }
+        // })
         this.getLesson()
       }
     },
@@ -531,48 +521,47 @@ export default {
 </script>
 
 <style scoped>
-*{
-font-family: 'Prompt', sans-serif;
+* {
+  font-family: "Prompt", sans-serif;
 }
-.cardShowuser{
+.cardShowuser {
   margin-top: 5%;
 }
-.head{
+.head {
   background-color: red;
 }
 .example {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-    .editor {
-        width: 100%;
-      height: 30rem;
-      overflow: hidden;
-      border-bottom: 0.5px solid #d2d2d2;
-    }
+.editor {
+  width: 100%;
+  height: 30rem;
+  overflow: hidden;
+  border-bottom: 0.5px solid #d2d2d2;
+}
 
-    .output {
-      width: 100%;
-      height: 20rem;
-      margin: 0;
-      border: 1px solid #ccc;
-      overflow-y: auto;
-      resize: vertical;
-    }
-      .code {
-        padding: 1rem;
-        height: 16rem;
-      }
+.output {
+  width: 100%;
+  height: 20rem;
+  margin: 0;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  resize: vertical;
+}
+.code {
+  padding: 1rem;
+  height: 16rem;
+}
 
-      .ql-snow {
-        border-top: none;
-        height: 24rem;
-      }
-      .v-data-table__expanded .v-data-table__expanded__content td{
-  box-shadow: 0px;
+.ql-snow {
+  border-top: none;
+  height: 24rem;
+}
+.v-data-table__expanded .v-data-table__expanded__content td {
+  box-shadow: 0px 0px 0px 0px;
 }
 .v-breadcrumbs >>> a {
-    color: #fcad74;
+  color: #fcad74;
 }
-
 </style>

@@ -148,7 +148,7 @@ export default {
               icon: 'success',
               title: 'ลงทะเบียนสำเร็จ',
               showConfirmButton: false,
-              text: 'คำอธิบาย',
+              // text: 'คำอธิบาย',
               customClass: {
                 title: 'csss'
               },
@@ -164,7 +164,7 @@ export default {
           icon: 'warning',
           title: 'กรุณากรอกข้อมูลให้ครบ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },

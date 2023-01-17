@@ -37,7 +37,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <router-link v-bind:to="'/lessondetail/'+ lesson.lesson_id">
+      <router-link v-bind:to="'/lessondetail/'+ lesson.lesson_unit">
       <v-btn
         color="#fcad74"
         text
@@ -136,11 +136,6 @@ export default {
           this.alllesson = res.data
         }
       })
-    },
-    sendData (data) {
-      this.lesson_id = data.lesson_id
-      this.lesson_unit = data.lesson_unit
-      this.lesson_description = data.lesson_description
     }
   }
 }

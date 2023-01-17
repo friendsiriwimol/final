@@ -101,7 +101,7 @@
                           >
                             ดูประวัติการทำข้อสอบ
                           </v-btn>
-                          <v-btn color="blue darken-1" text @click="dialog = false">
+                          <v-btn color="blue darken-1" text @click="dialog1 = false">
                         ปิด
                       </v-btn>
                        </v-row>
@@ -230,7 +230,7 @@ export default {
             icon: 'success',
             title: 'เพิ่มสำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -267,7 +267,7 @@ export default {
           icon: 'success',
           title: 'แก้ไขสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -294,7 +294,7 @@ export default {
           icon: 'success',
           title: 'ลบสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },

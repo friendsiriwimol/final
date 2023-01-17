@@ -1,14 +1,30 @@
 <template>
-<div id="app">
-  <article>
-    <div class="container">
-      <div class="forms-container">
-        <div class="signin-signup">
-          <v-form v-model="valid" ref="form" action="#" class="sign-up-form">
-               <v-toolbar-title class="header">E-learning for Hens</v-toolbar-title>
-              <v-toolbar-title class="font-weight mb-7">สมัครสมาชิก</v-toolbar-title>
-     <v-row>
-        <v-col
+  <div class="app">
+  <v-container class="all">
+  <v-row >
+    <v-col
+    lg="5"
+      sm="3"
+      md="6"
+      cols="3"
+
+    >
+      <div class="content">
+        <img src="../assets/registerlogo.png" alt="img" class="image" />
+            </div>
+    </v-col>
+    <v-col
+      cols="12"
+      sm="9"
+      md="6"
+      lg="7"
+        >
+      <center>
+      <v-title class="header" style="padding:20px">E-learning for Hens</v-title>
+      <v-form ref="form" v-model="valid" lazy-validation action="register" class="sign-in-form">
+      <v-title class="font-weight mb-7">ลงทะเบียน</v-title>
+      <v-row>
+      <v-col
           cols="12"
           sm="4"
         >
@@ -144,43 +160,6 @@
         </template>
     </v-select>
      </v-col>
-<!-- <v-col
-          cols="12"
-          sm="6"
-        >
-    <v-select
-        :items="['บ้านไผ่', 'ชนบท']"
-        :rules="typeRules"
-        label="อำเภอ"
-      :error-messages="selectErrors"
-      required
-      filled
-       rounded
-       dense
-       class="input1"
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
-    >
-        <template v-slot:item="{ item, attrs, on }">
-        <v-list-item
-            v-bind="attrs"
-            v-on="on"
-        >
-            <v-list-item-title
-            :id="attrs['aria-labelledby']"
-            v-text="item"
-            ></v-list-item-title>
-        </v-list-item>
-        </template>
-
-    </v-select>
-     </v-col> -->
-     <!-- <v-col
-          cols="12"
-          sm="4"
-        >
-        <addressinput-subdistrict class="addressinput" v-model="subdistrict" placeholder="ตำบล/แขวง"/>
-    </v-col> -->
     <v-col
           cols="12"
           sm="4"
@@ -197,22 +176,14 @@
       </v-row>
          <input type="button" class="button button1 btn" value="ลงทะเบียน" @click="resgisterUser()"/>
           </v-form>
-        </div>
-      </div>
-
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
-            <h3>เข้าสู่ระบบ ?</h3>
+        </center>
+           <center><h3>เข้าสู่ระบบ ?</h3>
             <p>ทำการเข้าสู่ระบบ บัญชีผู้ใช้ของท่าน</p>
-            <input type="button"  class="button button3 btn transparent login" value="เข้าสู่ระบบ" onclick="window.location.href='/'"/>
-
-          </div>
-          <img src="../assets/register.png" alt="img" class="image">
-        </div>
-      </div>
-    </div>
-  </article>
+            <input type="button"  class="button button3 btn1 solid" value="เข้าสู่ระบบ" onclick="window.location.href='/'"/>
+            </center>
+          </v-col>
+          </v-row>
+  </v-container>
   <!-- Youtube Link -->
 </div>
 </template>
@@ -292,7 +263,7 @@ export default {
               icon: 'success',
               title: 'ลงทะเบียนสำเร็จ',
               showConfirmButton: false,
-              text: 'คำอธิบาย',
+              // text: 'คำอธิบาย',
               customClass: {
                 title: 'csss'
               },
@@ -308,7 +279,7 @@ export default {
           icon: 'warning',
           title: 'กรุณากรอกข้อมูลให้ครบ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -329,67 +300,62 @@ body {
   overflow: hidden;
 }
 
- @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+#app{
+    padding: 0px;
+    margin: 0px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
-  padding: 0;
+  // padding: 0;
   box-sizing: border-box;
-      font-family: 'Prompt', sans-serif !important;
+    font-family: 'Prompt', sans-serif !important;
 
-}
-#app{
-    padding: 0px;
 }
 body,
 input {
 //   font-family: "Poppins", sans-serif;
 }
-.login{
+.reg{
     text-decoration: underline;
+}
+.input1 {
+  width: 40vw;
+  color: #04befe;
 }
 .container {
   position: relative;
   width: 100vw;
 //   background-color: #fff;
-  height: 100vh;
-//   overflow: hidden;
+  //min-height: 100vh;
+  // overflow: hidden;
 }
-
+// .all{
+//   margin:auto;
+// }
 article{
     margin-top: -5vw;
 }
-.sign-up-form{
-    margin-top: 3%;
-}
-
-// .col-12{
-//   margin: 10px;
+// .forms-container {
+//   position: absolute;
+//   width: 100vw;
+//   height: 100%;
+//   top: 0;
+//   left: 0;
 // }
-
-div .content{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.forms-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
 
 .signin-signup {
   position: absolute;
-  top: 50%;
+  top: 10%;
   transform: translate(-50%, -50%);
-  left: 85%;
+  // left: 85%;
   width: 70%;
   transition: 0.5s 0.5s ease-in-out;
-  display: grid;
+  // display: grid;
   grid-template-columns: 1fr;
-  z-index: 8;
+  z-index: 5;
 }
 
 form {
@@ -404,7 +370,7 @@ form {
   grid-row: 1 / 2;
 }
 
-form.sign-in-form {
+form.sign-up-form {
   opacity: 0;
   z-index: 1;
 }
@@ -416,15 +382,39 @@ form.sign-in-form {
 .title {
   font-size: 4.5rem;
   color: #444;
-  margin-bottom: 40px;
-  text-align: center;
-  // margin-left: -70px;
+  margin-bottom: 20px;
+//   font-family: "Poppins", sans-serif;
 }
 
-.input1{
-    width: 30vw;
-    margin: 10px;
-    padding: 0px 20px;
+.input-field {
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  height: 55px;
+  border-radius: 55px;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  padding: 0 0.4rem;
+  position: relative;
+}
+
+.input-field i {
+  text-align: center;
+  line-height: 55px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 1.1rem;
+}
+
+.input-field input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .input-field input::placeholder {
@@ -480,70 +470,26 @@ form.sign-in-form {
 .btn:hover {
   background-color: #2a68d5;
 }
-.panels-container {
-  position: absolute;
-  height: 50%;
-  width: 100%;
-  top: 7%;
-  left: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.btn1 {
+  width: 150px;
+  background-color: #fcad74;
+  border: none;
+  outline: none;
+  height: 49px;
+  border-radius: 49px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: 0.5s;
 }
 
-.container:before {
-  content: "";
-  position: absolute;
-  height: 1500px;
-  width: 1500px;
-  top: -10%;
-  right: 48%;
-  transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
-  transition: 0.5s ease-in-out;
-  border-radius: 50%;
-  z-index: 6;
+.btn1:hover {
+  background-color: #D1551B;
 }
-
 .image {
   width: 100%;
-  transition: transform 1.1s ease-in-out;
-  transition-delay: 0.4s;
-}
-
-.panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-around;
-  text-align: center;
-  z-index: 6;
-}
-
-.left-panel {
-  pointer-events: all;
-  padding: 3rem 17% 2rem 12%;
-}
-
-.right-panel {
-  pointer-events: none;
-  padding: 3rem 12% 2rem 17%;
-}
-
-.panel .content {
-  color: #fff;
-  transition: transform 0.5s ease-in-out;
-  transition-delay: 0.5s;
-}
-
-.panel h3 {
-  font-weight: 600;
-  line-height: 1;
-  font-size: 1.5rem;
-}
-
-.panel p {
-  font-size: 0.95rem;
-  padding: 0.7rem 0;
 }
 
 .btn.transparent {
@@ -554,11 +500,7 @@ form.sign-in-form {
   height: 41px;
   font-weight: 600;
   font-size: 0.8rem;
-}
 
-.right-panel .image,
-.right-panel .content {
-  transform: translateX(800px);
 }
 
 /* ANIMATION */
@@ -582,7 +524,7 @@ form.sign-in-form {
   z-index: 2;
 }
 
-.container.sign-up-mode form.sign-up-form {
+.container.sign-up-mode form.sign-in-form {
   opacity: 0;
   z-index: 1;
 }
@@ -592,164 +534,9 @@ form.sign-in-form {
   transform: translateX(0%);
 }
 
-.container.sign-up-mode .left-panel {
-  pointer-events: none;
-}
-
-.container.sign-up-mode .right-panel {
-  pointer-events: all;
-}
-
-@media (max-width: 870px) {
-  .container {
-    min-height: 800px;
-    height: 100vh;
-  }
-  .signin-signup {
-    width: 100vw;
-    top: 100%;
-    margin-top: 200px;
-    transform: translate(-50%, -100%);
-    transition: 0.5s 0.3s ease-in-out;
-  }
-
-  .signin-signup,
-  .container.sign-up-mode .signin-signup {
-    left: 50%;
-  }
-  .input1{
-    width: 80%;
-    left: 10%;
-  }
-
-  .panels-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
-  }
-
-  .panel {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 2.5rem 8%;
-    grid-column: 1 / 2;
-  }
-
-  .right-panel {
-    grid-row: 3 / 4;
-  }
-
-  .left-panel {
-    grid-row: 1 / 2;
-  }
-
-  .image {
-    width: 200px;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
-  }
-
-  .panel .content {
-    padding-right: 15%;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.8s;
-  }
-
-  .panel h3 {
-    font-size: 1.2rem;
-  }
-
-  .panel p {
-    font-size: 0.7rem;
-    padding: 0.5rem 0;
-  }
-
-  .btn.transparent {
-    width: 110px;
-    height: 35px;
-    font-size: 0.7rem;
-  }
-
-  .container:before {
-    width: 1500px;
-    height: 1500px;
-    transform: translateX(-50%);
-    left: 30%;
-    bottom: 68%;
-    right: initial;
-    top: initial;
-    transition: 2s ease-in-out;
-  }
-
-  .container.sign-up-mode:before {
-    transform: translate(-50%, 100%);
-    bottom: 32%;
-    right: initial;
-  }
-
-  .container.sign-up-mode .left-panel .image,
-  .container.sign-up-mode .left-panel .content {
-    transform: translateY(-300px);
-  }
-
-  .container.sign-up-mode .right-panel .image,
-  .container.sign-up-mode .right-panel .content {
-    transform: translateY(0px);
-  }
-
-  .right-panel .image,
-  .right-panel .content {
-    transform: translateY(300px);
-  }
-
-  .container.sign-up-mode .signin-signup {
-    top: 5%;
-    transform: translate(-50%, 0);
-  }
-}
-
-@media (max-width: 570px) {
-  form {
-    padding: 0 1.5rem;
-  }
-//   .sign-up-form{
-//     margin-top: 100%;
-// }
-
-   .header{
-    font-size: 1em;
-  }
-  .signin-signup {
-    width: 100vw;
-    top: 100%;
-    margin-top: 500px;
-    // transform: translate(-50%, -100%);
-    transition: 0.5s 0.3s ease-in-out;
-  }
-
-  .image {
-    display: none;
-  }
-  .panel .content {
-    padding: 0.5rem 1rem;
-  }
-  .container {
-    padding: 1.5rem;
-  }
-
-  .container:before {
-    bottom: 72%;
-    left: 20%;
-  }
-
-  .container.sign-up-mode:before {
-    bottom: 28%;
-    left: 50%;
-  }
-}
 @import url(https://fonts.googleapis.com/css?family=Righteous);
 .header{
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
   font-size: 3em;
   font-weight: bold;
   font-family: 'Righteous', serif;

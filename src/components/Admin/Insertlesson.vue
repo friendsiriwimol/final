@@ -121,7 +121,7 @@ export default {
             icon: 'success',
             title: 'เพิ่มสำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },

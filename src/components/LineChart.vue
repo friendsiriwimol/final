@@ -3,8 +3,9 @@
     <v-row justify="center" class="space">
         <v-col cols="9" md="8">
     <v-card height="" flat color="transparent" class="mt-20">
+      <!-- <v-card-title>สถิติการทำแบบทดสอบต่อเดือน</v-card-title> -->
       <v-toolbar color="rgba(0,0,0,0)" flat class="py-4">
-        <v-toolbar-title class=""> สถิติการใช้งานต่อเดือน </v-toolbar-title>
+        <v-toolbar-title class=""> สถิติการทำแบบทดสอบต่อเดือน </v-toolbar-title>
       </v-toolbar>
       <div class="hello">
         <h1>{{ msg }}</h1>
@@ -27,13 +28,13 @@ export default {
     console.log('Component mounted.')
 
     const ctx = document.getElementById('myChart')
-    const labels = ['January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July']
+    const labels = ['บทที่ 1',
+      'บทที่ 2',
+      'บทที่ 3',
+      'บทที่ 4',
+      'บทที่ 5',
+      'บทที่ 6',
+      'บทที่ 7']
     const data = {
       labels: labels,
       datasets: [
@@ -78,5 +79,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+*{
+font-family: 'Prompt', sans-serif !important;
+}
 </style>
