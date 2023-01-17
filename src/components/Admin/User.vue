@@ -518,7 +518,7 @@ export default {
           icon: 'success',
           title: 'ดาวน์โหลดสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -606,7 +606,7 @@ export default {
           icon: 'success',
           title: 'แก้ไขสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -636,7 +636,7 @@ export default {
           icon: 'success',
           title: 'ลบสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -661,29 +661,37 @@ export default {
       }
     },
     onExportall () {
+      const Heading = [['รหัสผู้ใช้งาน', 'ชื่อ', 'นามสกุล', 'อีเมล', 'รหัสผ่าน', 'เบอร์โทร', 'ประเภทผู้ใช้งาน', 'อายุ', 'อำเภอ', 'จังหวัด', 'วันที่สร้างบัญชี', 'วันที่แก้ไขบัญชี']]
       const dataWS = XLSX.utils.json_to_sheet(this.alluser)
       const wb = XLSX.utils.book_new()
+      XLSX.utils.sheet_add_aoa(dataWS, Heading)
       XLSX.utils.book_append_sheet(wb, dataWS)
       XLSX.writeFile(wb, 'รายชื่อผู้ใช้งาน.xlsx')
     },
     onExportstudent () {
+      const Heading = [['รหัสผู้ใช้งาน', 'ชื่อ', 'นามสกุล', 'อีเมล', 'รหัสผ่าน', 'เบอร์โทร', 'ประเภทผู้ใช้งาน', 'อายุ', 'อำเภอ', 'จังหวัด', 'วันที่สร้างบัญชี', 'วันที่แก้ไขบัญชี']]
       console.log('student', this.allstudent)
       const dataWS = XLSX.utils.json_to_sheet(this.allstudent)
       const wb = XLSX.utils.book_new()
+      XLSX.utils.sheet_add_aoa(dataWS, Heading)
       XLSX.utils.book_append_sheet(wb, dataWS)
       XLSX.writeFile(wb, 'รายชื่อนักศึกษา.xlsx')
     },
     onExportfarmer () {
       // console.log('log')
+      const Heading = [['รหัสผู้ใช้งาน', 'ชื่อ', 'นามสกุล', 'อีเมล', 'รหัสผ่าน', 'เบอร์โทร', 'ประเภทผู้ใช้งาน', 'อายุ', 'อำเภอ', 'จังหวัด', 'วันที่สร้างบัญชี', 'วันที่แก้ไขบัญชี']]
       const dataWS = XLSX.utils.json_to_sheet(this.allfarmer)
       const wb = XLSX.utils.book_new()
+      XLSX.utils.sheet_add_aoa(dataWS, Heading)
       XLSX.utils.book_append_sheet(wb, dataWS)
       XLSX.writeFile(wb, 'รายชื่อเกษตรกร.xlsx')
     },
     onExportadmin () {
       // console.log('log')
+      const Heading = [['รหัสผู้ใช้งาน', 'ชื่อ', 'นามสกุล', 'อีเมล', 'รหัสผ่าน', 'เบอร์โทร', 'ประเภทผู้ใช้งาน', 'อายุ', 'อำเภอ', 'จังหวัด', 'วันที่สร้างบัญชี', 'วันที่แก้ไขบัญชี']]
       const dataWS = XLSX.utils.json_to_sheet(this.alladmin)
       const wb = XLSX.utils.book_new()
+      XLSX.utils.sheet_add_aoa(dataWS, Heading)
       XLSX.utils.book_append_sheet(wb, dataWS)
       XLSX.writeFile(wb, 'รายชื่อแอดมิน.xlsx')
     }

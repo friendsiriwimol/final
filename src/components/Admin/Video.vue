@@ -237,7 +237,7 @@
               <v-col
                 cols="12"
               >
-              <v-file-input
+              <!-- <v-file-input
               ref="file"
                 small-chips
                 multiple
@@ -245,9 +245,9 @@
                 required
                 v-model="file"
                 v-on:change="onChangeFileUpload()"
-              ></v-file-input>
+              ></v-file-input> -->
 
-              <!-- <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" @input="pickFile" > -->
+              <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" @input="pickFile" >
 
             </v-col>
             </v-row>
@@ -376,7 +376,7 @@ export default {
       if (this.$refs.form1.validate() && this.file) {
         console.log(this.file)
         const formData = new FormData()
-        formData.append('file', this.file)
+        // formData.append('file', this.file)
         formData.append('video_subunit', this.video_subunit)
         formData.append('video_name', this.video_name)
         formData.append('lesson_unit', this.lesson_unit)
@@ -400,7 +400,7 @@ export default {
             icon: 'success',
             title: 'เพิ่มสำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -457,7 +457,7 @@ export default {
           icon: 'success',
           title: 'แก้ไขสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },

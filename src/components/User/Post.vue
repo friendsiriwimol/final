@@ -47,7 +47,7 @@
     </v-card-title>
     </v-card>
 
-    <v-card class="cardShowuser" v-for="(postuser, index) in allpost" :key="postuser.post_id">
+    <v-card class="cardShowuser" v-for="(postuser, index) in allapprove" :key="postuser.post_id">
       <!-- {{postuser}} -->
       <v-card-title>
         Siriwimol&nbsp;<span style="color: #21777f;">{{postuser.post_detail}}</span>
@@ -115,6 +115,7 @@ export default {
   },
   name: 'show',
   data: () => ({
+    allapprove: [],
     allpost: [],
     allcomment: [],
     show: false,
@@ -170,6 +171,7 @@ export default {
         console.log('data:', res.data)
         if (res.data) {
           this.allpost = res.data
+          this.allapprove = res.data
           console.log(this.allpost, 'โพสต์จ้า')
         }
       })
@@ -198,7 +200,7 @@ export default {
             icon: 'success',
             title: 'โพสต์สำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -224,7 +226,7 @@ export default {
             icon: 'success',
             title: 'คอมเมนต์สำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },

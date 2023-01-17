@@ -105,6 +105,14 @@
           <td>
             <!-- <a href="Quizlesson" text color="#FAD234"> -->
               <!-- <router-link to="/test/">test</router-link> -->
+              <router-link v-bind:to="'/quiz/posttest/'+ lesson.lesson_id">
+                <v-btn
+                  color="#fcad74"
+                  text
+                >
+                อ่านเพิ่มเติม
+                </v-btn>
+              </router-link>
             <v-btn
               text
               color="primary"

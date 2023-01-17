@@ -44,23 +44,22 @@
           </v-icon>
         </template>
       </v-data-table>
-      <v-dialog v-model="dialog" max-width="600px">
+      <v-dialog v-model="dialog" max-width="900px" persistent>
         <v-card>
           <v-card-title> วิดีโอ </v-card-title>
           <v-card-text>
             <v-container>
               <v-row>
                 <!-- <v-form v-model="valid" ref="form"> -->
-                  <v-col cols="6">
+                  <v-col cols="12" sm="4" v-for="video in allvideo" v-bind:key="video.video_id">
                     <v-card class="pa-3">
-                      <iframe width="100%" src="https://www.youtube.com/embed/GTcM3qCeup0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                      <div class="mt-2 mb-2">วิดีโอย่อยที่ 1.1 : ไก่จ้า</div>
-                    </v-card>
-                  </v-col>
-                  <v-col cols="6">
-                    <v-card class="pa-3">
-                      <iframe width="100%" src="https://www.youtube.com/embed/GTcM3qCeup0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                      <div class="mt-2 mb-2">วิดีโอย่อยที่ 1.2 : กินไก่ป่ะ</div>
+                      <div >
+                      <iframe :src="video.video_file" width="100%"></iframe>
+
+                      <!-- <iframe width="100%" src="https://www.youtube.com/embed/GTcM3qCeup0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+                      <div class="mt-2 mb-2">{{video.video_subunit}} {{video.video_name}}</div>
+                    </div>
                     </v-card>
                   </v-col>
                 <!-- </v-form> -->
@@ -72,12 +71,12 @@
             <v-btn color="blue darken-1" text @click="dialog = false">
               ปิด
             </v-btn>
-            <v-btn color="blue darken-1" text @click="saveUpdate()">
+            <!-- <v-btn color="blue darken-1" text @click="saveUpdate()">
               บันทึก
-            </v-btn>
+            </v-btn> -->
           </v-card-actions>
         </v-card>
-        </v-dialog>
+      </v-dialog>
         </v-card>
   </div>
 </template>
@@ -126,8 +125,18 @@ export default {
   }),
   created () {
     this.getLesson()
+    this.getVideo()
   },
   methods: {
+    async getVideo () {
+      console.log('rewload')
+      axios.get('http://localhost/vue-backend/video.php').then((res) => {
+        console.log('data:', res.data)
+        if (res.data) {
+          this.allvideo = res.data
+        }
+      })
+    },
     async getLesson () {
       axios.get('http://localhost/vue-backend/editLesson.php').then((res) => {
         console.log('data:', res.data)

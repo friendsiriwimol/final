@@ -336,7 +336,7 @@ export default {
             icon: 'success',
             title: 'อนุมัติโพสต์สำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -360,7 +360,7 @@ export default {
           icon: 'success',
           title: 'ลบสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },

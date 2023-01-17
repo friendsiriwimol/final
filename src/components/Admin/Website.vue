@@ -237,7 +237,7 @@ export default {
             icon: 'success',
             title: 'เพิ่มสำเร็จ',
             showConfirmButton: false,
-            text: 'คำอธิบาย',
+            // text: 'คำอธิบาย',
             customClass: {
               title: 'csss'
             },
@@ -303,7 +303,7 @@ export default {
           icon: 'success',
           title: 'แก้ไขสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },
@@ -332,7 +332,7 @@ export default {
           icon: 'success',
           title: 'ลบสำเร็จ',
           showConfirmButton: false,
-          text: 'คำอธิบาย',
+          // text: 'คำอธิบาย',
           customClass: {
             title: 'csss'
           },

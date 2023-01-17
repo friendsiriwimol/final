@@ -65,13 +65,13 @@
       ></v-text-field>
     </v-card-title>
               <v-data-table
-        :items="alluser"
+        :items="allstudent"
         :headers="headers"
         :items-per-page="5"
         :search="search"
         no-data-text="ไม่พบข้อมูล"
         no-results-text="ไม่พบข้อมูลที่ค้นหา"
-        v-if="alluser.length"
+        v-if="allstudent.length"
       >
       </v-data-table>
             </v-card-text>

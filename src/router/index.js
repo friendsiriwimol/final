@@ -8,7 +8,6 @@ import editLesson from '../components/Admin/Editlesson.vue'
 import adminLesson from '../components/Admin/Lesson.vue'
 import insertlesson from '../components/Admin/Insertlesson.vue'
 import lesson from '../components/User/Lesson.vue'
-import lessonmore from '../components/User/Lessonmore.vue'
 import quiz from '../components/User/Quiz.vue'
 import quizlesson from '../components/User/Quizlesson.vue'
 import video from '../components/User/Video.vue'
@@ -21,7 +20,6 @@ import adminUser from '../components/Admin/User.vue'
 import adminPost from '../components/Admin/Post.vue'
 import testprofile from '../components/testprofile.vue'
 import test from '../components/test.vue'
-import quizmore from '../components/User/Quizmore.vue'
 import adminquiz from '../components/Admin/Quiz.vue'
 import testImage from '../components/testImage.vue'
 import admindashboard from '../components/Admin/Dashboard.vue'
@@ -34,6 +32,10 @@ import testUploadImg from '../components/Admin/test.vue'
 import lessondetail from '../components/User/Lessondetail'
 import adminvideo from '../components/Admin/Video'
 import testVideo from '../components/testVideo'
+import table from '../components/Table.vue'
+import testLogin from '../components/testLogin.vue'
+import forgetpassword from '../components/User/ForgetPassword.vue'
+import posttest from '../components/User/Posttest.vue'
 
 Vue.use(VueRouter)
 
@@ -78,11 +80,6 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: profile
-  },
-  {
-    path: '/lessonmore',
-    name: 'lessonmore',
-    component: lessonmore
   },
   {
     path: '/adminLesson',
@@ -138,11 +135,6 @@ const routes = [
     path: '/test/:id',
     name: 'test',
     component: test
-  },
-  {
-    path: '/quizmore',
-    name: 'quizmore',
-    component: quizmore
   },
   {
     path: '/adminpost',
@@ -208,12 +200,32 @@ const routes = [
     path: '/testVideo',
     name: 'testVideo',
     component: testVideo
+  },
+  {
+    path: '/table',
+    name: 'table',
+    component: table
+  },
+  {
+    path: '/testLogin',
+    name: 'testLogin',
+    component: testLogin
+  },
+  {
+    path: '/testLogin',
+    name: 'testLogin',
+    component: testLogin
+  },
+  {
+    path: '/forgetpassword',
+    name: 'forgetpassword',
+    component: forgetpassword
+  },
+  {
+    path: '/quiz/posttest/:id',
+    name: 'posttest',
+    component: posttest
   }
-  // {
-  //   path: '/profileadmin',
-  //   name: 'profileadmin',
-  //   component: profileadmin
-  // }
 ]
 
 const router = new VueRouter({
