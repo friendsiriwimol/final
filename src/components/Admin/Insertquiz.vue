@@ -6,7 +6,8 @@
       <v-card-title>
         <v-icon class="mr-2" color="#fcad74">mdi-comment-question</v-icon>
         <v-form v-model="valid" ref="form">
-          <v-text-field v-model="allquestion[index]['question_detail']"  :label="`คำถาม ${index + 1}`"></v-text-field>
+          <v-text-field v-model="question.question_detail"  :label="`คำถาม ${index + 1}`"></v-text-field>
+          <!-- {{ question.answer_detail }} -->
         </v-form>
         <v-spacer></v-spacer>
         <v-select
@@ -15,14 +16,13 @@
           dense
           solo
           v-model="selected"
-          v-on:click="showcheckbox = !showcheckbox"
         ></v-select>
       </v-card-title>
       <pre>{{ answer_detail }}</pre>
-      <div>
+      <div v-for="(item, idx) in question.answer_detail" :key="idx">
         <v-row align="center">
           <v-checkbox
-            v-model="allquestion[index]['value']"
+            v-model="item.value"
             true-value="Y"
             false-value="N"
             hide-details
@@ -30,15 +30,15 @@
           >
           </v-checkbox>
           <v-text-field
-            :label="`คำตอบ ${index + 1}`"
+            :label="`คำตอบ ${idx + 1}`"
             class="mr-3"
-            v-model="allquestion[index]['name']"
+            v-model="item.name"
           >
           </v-text-field>
         </v-row>
       </div>
       <div class="d-flex justify-end mb-2">
-        <v-btn @click="addQuestionOnClick()">เพิ่มคำตอบ</v-btn>
+        <v-btn @click="addAnswerOnClick(index)">เพิ่มคำตอบ</v-btn>
       </div>
     </v-card>
     <div>
@@ -59,6 +59,7 @@ export default {
   },
   data: () => ({
     items: ['Checkbox', 'Radio Button'],
+    selected: '',
     answer_detail: [],
     allquestion: [],
     valid: false,
@@ -68,8 +69,8 @@ export default {
     alert () {
       alert('จ้าาา')
     },
-    addAnswerOnClick () {
-      this.answer_detail.push({
+    addAnswerOnClick (idx) {
+      this.allquestion[idx].answer_detail.push({
         name: '',
         value: 'N'
       })
@@ -77,10 +78,7 @@ export default {
     addQuestionOnClick () {
       this.allquestion.push({
         question_detail: '',
-        answer_detail: [{
-          name: '',
-          value: 'N'
-        }]
+        answer_detail: []
       })
     },
     async insertQuestion () {
