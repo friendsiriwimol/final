@@ -99,7 +99,7 @@ export default {
       axios.get('http://localhost/vue-backend/lesson.php?id=this.lesson_id').then((res) => {
         console.log('data:', res.data)
         if (res.data) {
-          this.item = res.data[this.lesson_id]
+          this.item = res.data[this.lesson_id - 2]
           console.log('item', this.item)
         }
       })
