@@ -16,7 +16,7 @@
       :key="question.question_id"
     >
       <v-card-title>
-        {{ question }}
+        <!-- {{ question }} -->
       </v-card-title>
       <v-card-subtitle>
         <!-- <v-card-text> -->

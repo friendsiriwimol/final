@@ -17,7 +17,7 @@
           <div v-for="answer in allanswer"
           v-bind:key="answer.answer_id">
           <div v-if="answer.question_id === question.question_id">
-            <div>{{ allanswer }}</div>
+            <!-- <div>{{ allanswer }}</div> -->
         <v-radio-group
           v-model="answer.answer_status"
           row
